@@ -65,7 +65,7 @@
       "react-app/jest"
     ],
     "rules": {
-      "no-unused-vars": "warn"
+      "no-unused-vars": "off"
     }
   },
   "browserslist": {
