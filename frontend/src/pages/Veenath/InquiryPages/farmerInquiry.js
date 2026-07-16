@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Typography, Tabs, Tab, Badge, TextField, Button, Grid } from '@mui/material';
-import { ReplyAll, Search as SearchIcon } from '@mui/icons-material';
+import { Search as SearchIcon } from '@mui/icons-material';
 import InquiryRow from '../../../Component/Veenath/InquiryComp/InquiryRow';
 import InquiryDetailsPopup from '../../../Component/Veenath/InquiryComp/InquiryDetailsPopup';
 import { API_URL } from '../../../config';

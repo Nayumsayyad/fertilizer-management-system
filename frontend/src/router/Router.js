@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 //common
 import LandingPage from '../pages/common/LandingPage';
 import Header from '../Component/common/header';
@@ -39,7 +39,6 @@ import UpdateOrderDialog from '../Component/Lasindu/orderUpdate';
 import ItemList from '../Component/Lasindu/Itemlist';
 //Thisaravi
 import RegisterForm from '../pages/Thisaravi/RegisterForm';
-import Profile from '../pages/Thisaravi/Profile';
 import FarmerProfile from '../Component/Thisaravi/FarmerProfile';
 import Sidebar from '../Component/Thisaravi/Sidebar';
 import SoilTestRequest from '../pages/Thisaravi/SoilTest/SoilTestRequest';

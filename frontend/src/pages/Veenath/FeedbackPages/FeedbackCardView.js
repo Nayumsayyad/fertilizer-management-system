@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Grid, Card, CardContent, Rating, CardActions, Button, Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, Rating, CardActions, Button, Box, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import FeedbackDetailsDialog from '../../../Component/Veenath/FeedbackComp/FeedbackDetailsDialog';
 import { API_URL } from '../../../config';
