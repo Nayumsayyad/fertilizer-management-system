@@ -7,6 +7,7 @@ import '../../styles/Sudarshan/dealer_profile.css';
 import { Icon } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const AdminProfile = () => {
   const [adminData, setAdminData] = useState({
@@ -24,7 +25,7 @@ const AdminProfile = () => {
       try {
         const token = localStorage.getItem('token');
         console.log('Authorization Token:', token);
-        const response = await axios.get('http://localhost:8070/api/profile', {
+        const response = await axios.get(`${API_URL}/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -7,6 +7,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import { API_URL } from '../../config';
 
 const ItemButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
@@ -88,7 +89,7 @@ const ItemList = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8070/item/displayAll')
+    axios.get(`${API_URL}/item/displayAll`)
       .then((res) => {
         setItems(res.data);
         setLoading(false);

@@ -5,6 +5,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; 
+import { API_URL } from '../../config';
 
 const StyledContainer = styled(Container)({
   marginTop: '50px',
@@ -35,7 +36,7 @@ const LabProfile = () => {
   const fetchLabDetails = async () => {
     try {
       const userName = sessionStorage.getItem('userName');
-      const response = await axios.get(`http://localhost:8070/labAccount/retrieve?userName=${userName}`);
+      const response = await axios.get(`${API_URL}/labAccount/retrieve?userName=${userName}`);
       setLabDetails(response.data);
     } catch (error) {
       console.error('Error fetching lab details:', error);
@@ -60,7 +61,7 @@ const LabProfile = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8070/labAccount/delete/${storedUserName}`);
+      await axios.delete(`${API_URL}/labAccount/delete/${storedUserName}`);
       alert('Account deleted successfully');
       navigate('/labSignup');
     } catch (error) {
@@ -72,7 +73,7 @@ const LabProfile = () => {
   const generatePDF = async () => {
     try {
       const storedUserName = sessionStorage.getItem('userName');
-      const response = await axios.get(`http://localhost:8070/labAccount/get/${storedUserName}`);
+      const response = await axios.get(`${API_URL}/labAccount/get/${storedUserName}`);
       const laboratory = response.data.labAccount;
   
       const doc = new jsPDF();

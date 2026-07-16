@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button, TextField, IconButton, styled } fr
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const Container = styled('div')({
   width: '100%',
@@ -66,7 +67,7 @@ function UploadFile() {
     formData.append('requestId', requestId);
 
     try {
-      await axios.post('http://localhost:8070/labReport/upload-files', formData, {
+      await axios.post(`${API_URL}/labReport/upload-files`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert("Successfully uploaded");

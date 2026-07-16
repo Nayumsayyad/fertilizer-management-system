@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { API_URL } from '../../../config';
 
 const RequestDetails = () => {
   const { requestId } = useParams();
@@ -10,7 +11,7 @@ const RequestDetails = () => {
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/SoilTest/get/${requestId}`);
+        const response = await axios.get(`${API_URL}/SoilTest/get/${requestId}`);
         setSoilTest(response.data);
       } catch (error) {
         console.error('Error fetching soil test details:', error);

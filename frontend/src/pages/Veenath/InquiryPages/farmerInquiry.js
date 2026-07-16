@@ -4,6 +4,7 @@ import { Typography, Tabs, Tab, Badge, TextField, Button, Grid } from '@mui/mate
 import { ReplyAll, Search as SearchIcon } from '@mui/icons-material';
 import InquiryRow from '../../../Component/Veenath/InquiryComp/InquiryRow';
 import InquiryDetailsPopup from '../../../Component/Veenath/InquiryComp/InquiryDetailsPopup';
+import { API_URL } from '../../../config';
 
 const FarmerInquiry = () => {
   const [pendingInquiries, setPendingInquiries] = useState([]);
@@ -16,7 +17,7 @@ const FarmerInquiry = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/reports');
+        const response = await axios.get(`${API_URL}/api/reports`);
         const allInquiries = response.data;
 
         const farmerPendingInquiries = allInquiries.filter(inquiry => inquiry.status === 'Pending' && inquiry.category === 'Farmer');
@@ -26,7 +27,7 @@ const FarmerInquiry = () => {
 
         farmerPendingInquiries.forEach(async (inquiry) => {
           try {
-            const replyResponse = await axios.get(`http://localhost:8070/dealers/${inquiry._id}/reply`);
+            const replyResponse = await axios.get(`${API_URL}/dealers/${inquiry._id}/reply`);
             // Assuming the replies are stored in a property called 'replies'
             console.log('Replies for inquiry ID', inquiry._id, ':', replyResponse.data); // Log replies
             allInquiries.replies = replyResponse.data;

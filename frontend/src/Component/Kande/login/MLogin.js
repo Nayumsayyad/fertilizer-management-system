@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from '../../../config';
 
 export default function MLogin() {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ export default function MLogin() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:8070/Mlogin", {
+      const response = await axios.post(`${API_URL}/Mlogin`, {
         username,
         password,
       });

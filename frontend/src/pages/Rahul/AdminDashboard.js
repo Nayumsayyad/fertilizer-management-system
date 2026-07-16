@@ -3,6 +3,7 @@ import { Card, Space, Statistic, Typography } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import dashBackground from "../../images/Rahul/h1.jpeg"
+import { API_URL } from '../../config';
 
 function Dashboard() {
   const [adminName, setAdminName] = useState('');
@@ -19,7 +20,7 @@ function Dashboard() {
 
   const fetchAdminName = async () => {
     try {
-      const response = await axios.get("http://localhost:8070/api/auth/admins", {
+      const response = await axios.get(`${API_URL}/api/auth/admins`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -32,7 +33,7 @@ function Dashboard() {
 
   const fetchDealersCount = async () => {
     try {
-      const response = await axios.get("http://localhost:8070/countDealer");
+      const response = await axios.get(`${API_URL}/countDealer`);
       setDealersCount(response.data.count);
     } catch (error) {
       console.error("Error fetching dealers count:", error);
@@ -41,7 +42,7 @@ function Dashboard() {
 
   const fetchFarmersCount = async () => {
     try {
-      const response = await axios.get("http://localhost:8070/countFarmer");
+      const response = await axios.get(`${API_URL}/countFarmer`);
       setFarmersCount(response.data.count);
     } catch (error) {
       console.error("Error fetching farmers count:", error);
@@ -50,7 +51,7 @@ function Dashboard() {
 
   const fetchInquiriesCount = async () => {
     try {
-      const response = await axios.get("http://localhost:8070/countPendingFarmerReports");
+      const response = await axios.get(`${API_URL}/countPendingFarmerReports`);
       setInquiriesCount(response.data.count);
     } catch (error) {
       console.error("Error fetching inquiries count:", error);

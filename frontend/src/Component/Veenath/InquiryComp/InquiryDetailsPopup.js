@@ -13,6 +13,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { PDFDownloadLink, PDFViewer, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { API_URL } from '../../../config';
 
 const buttonStyle = {
   padding: '10px 20px',
@@ -81,7 +82,7 @@ const InquiryDetailsPopup = ({ inquiry, onClosePopup }) => {
     setIsBackdropOpen(true);
     setIsDeleting(true);
     try {
-      await axios.delete(`http://localhost:8070/api/reports/${inquiry._id}`);
+      await axios.delete(`${API_URL}/api/reports/${inquiry._id}`);
       setIsDeleteSuccess(true);
       onClosePopup(); 
       setTimeout(() => {

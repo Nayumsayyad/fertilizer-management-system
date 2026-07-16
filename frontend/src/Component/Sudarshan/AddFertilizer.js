@@ -16,6 +16,7 @@ import xfert from '../../images/Sudarshan/fertilizer images/xfert.png';
 import dolomite from '../../images/Sudarshan/fertilizer images/dolomite.png';
 import PopupMessage from '../../pages/common/PopUp';
 import { Typography} from '@material-ui/core';
+import { API_URL } from '../../config';
 
 const AddFertilizer = () => {
     const [dealerData, setDealerData] = useState({});
@@ -36,7 +37,7 @@ const AddFertilizer = () => {
       const fetchDealerData = async () => {
           try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8070/dealer/dealers', {
+            const response = await axios.get(`${API_URL}/dealer/dealers`, {
               headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -48,7 +49,7 @@ const AddFertilizer = () => {
         console.log('Dealer ID:', dealerId);
         setDealerId(dealerId);
 
-        const fertilizersResponse = await axios.get(`http://localhost:8070/dealer/${dealerId}/fertilizers`);
+        const fertilizersResponse = await axios.get(`${API_URL}/dealer/${dealerId}/fertilizers`);
         console.log('Fertilizers response:', fertilizersResponse);
                 setFertilizers(fertilizersResponse.data);
                 console.log('Fertilizers:', fertilizersResponse.data);
@@ -147,7 +148,7 @@ const AddFertilizer = () => {
             itemcode: itemcode
     });
           
-          const response = await axios.post('http://localhost:8070/dealer/addProduct', {
+          const response = await axios.post(`${API_URL}/dealer/addProduct`, {
             id: dealerId,
             name: product,
             price: price,

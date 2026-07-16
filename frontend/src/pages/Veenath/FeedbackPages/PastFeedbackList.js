@@ -3,6 +3,7 @@ import { ListItemText, Button, Typography, Container, Accordion, AccordionSummar
 import { Link } from 'react-router-dom';
 import { DeleteOutline, Edit, SentimentVeryDissatisfied, SentimentDissatisfied, SentimentSatisfied, SentimentSatisfiedAltOutlined, SentimentVerySatisfied, Mail } from '@mui/icons-material';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 
 const PastFeedbackList = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -14,7 +15,7 @@ const PastFeedbackList = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/feedbacks');
+        const response = await axios.get(`${API_URL}/api/feedbacks`);
         setFeedbacks(response.data.feedbacks);
       } catch (err) {
         console.error(err);
@@ -27,7 +28,7 @@ const PastFeedbackList = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8070/api/feedbacks/${id}`);
+      await axios.delete(`${API_URL}/api/feedbacks/${id}`);
       setFeedbacks((prevFeedbacks) => prevFeedbacks.filter((feedback) => feedback._id !== id));
       setDeleteDialogOpen(false);
     } catch (err) {

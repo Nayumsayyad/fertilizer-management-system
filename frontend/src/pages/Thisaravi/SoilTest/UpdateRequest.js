@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 
 const districts = {
   Puttlam: ['Wennappuwa', 'Katuneriya', 'City7'],
@@ -35,7 +36,7 @@ const UpdateRequest = () => {
     const fetchLaboratories = async () => {
       if (district && city) {
         try {
-          const response = await fetch(`http://localhost:8070/SoilTest/laboratories/${district}/${city}`);
+          const response = await fetch(`${API_URL}/SoilTest/laboratories/${district}/${city}`);
           const data = await response.json();
           setAvailableLaboratories(data);
         } catch (error) {
@@ -50,7 +51,7 @@ const UpdateRequest = () => {
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/SoilTest/get/${requestId}`);
+        const response = await axios.get(`${API_URL}/SoilTest/get/${requestId}`);
         const requestData = response.data;
         setSoilTestType(requestData.soilTestType);
         setCropType(requestData.cropType);
@@ -68,7 +69,7 @@ const UpdateRequest = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8070/SoilTest/update/${requestId}`, {
+      await axios.put(`${API_URL}/SoilTest/update/${requestId}`, {
         soilTestType,
         cropType,
         date,

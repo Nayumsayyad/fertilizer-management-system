@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:8070/Farmer/login', formData);
+        const response = await axios.post(`${API_URL}/Farmer/login`, formData);
         const { token } = response.data.username;
         localStorage.setItem('logId', token);
         console.log('Token:', token);

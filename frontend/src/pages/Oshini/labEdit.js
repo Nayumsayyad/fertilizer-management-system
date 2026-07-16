@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, Button, TextField, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const StyledContainer = styled(Container)({
   marginTop: '50px',
@@ -30,7 +31,7 @@ const LabEdit = () => {
   const fetchLabDetails = async () => {
     try {
       const userName = sessionStorage.getItem('userName');
-      const response = await axios.get(`http://localhost:8070/labAccount/retrieve?userName=${userName}`);
+      const response = await axios.get(`${API_URL}/labAccount/retrieve?userName=${userName}`);
       setLabDetails(response.data);
     } catch (error) {
       console.error('Error fetching lab details:', error);
@@ -52,7 +53,7 @@ const LabEdit = () => {
         city,
         password
       };
-      await axios.put(`http://localhost:8070/labAccount/update/${userName}`, updateData);
+      await axios.put(`${API_URL}/labAccount/update/${userName}`, updateData);
       alert("User Updated");
     } catch (error) {
       console.error('Error updating lab details:', error);

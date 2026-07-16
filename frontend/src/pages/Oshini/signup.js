@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, styled } from '@mui/material';
 import axios from 'axios'; 
+import { API_URL } from '../../config';
 
 
 const Container = styled('div')({
@@ -62,7 +63,7 @@ const SignupForm = () => {
 
     if (e.target.name === 'userName') {
       try {
-        const response = await axios.get('http://localhost:8070/labAccount/checkUserName', {
+        const response = await axios.get(`${API_URL}/labAccount/checkUserName`, {
           params: {
             userName: e.target.value
           }
@@ -84,7 +85,7 @@ const SignupForm = () => {
     e.preventDefault(); 
     if (formData.userName && !phoneError && !usernameError) {
       try {
-        const response = await axios.post('http://localhost:8070/labAccount/add', formData);
+        const response = await axios.post(`${API_URL}/labAccount/add`, formData);
         console.log(response.data);
         alert('Signup Successful!');
         navigate('/labLogin');

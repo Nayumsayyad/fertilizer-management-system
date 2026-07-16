@@ -6,6 +6,7 @@ import FertilizerForm from "./FormCntainer/FertilizerForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios"; 
 import TopFertilizerInputData from "../../pages/Kande/DataInsertGraphs/TopSellerInputGraphs";
+import { API_URL } from '../../config';
 
 
 
@@ -36,7 +37,7 @@ const AddTopSelling = () => {
         } else {
             try {
                 // Make a POST request to the backend API endpoint
-                const response = await axios.post('http://localhost:8070/topdealer/add', {
+                const response = await axios.post(`${API_URL}/topdealer/add`, {
                     dealername: name,
                     noofsales: sales
                 });

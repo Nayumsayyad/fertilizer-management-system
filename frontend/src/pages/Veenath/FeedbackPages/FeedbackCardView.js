@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import FeedbackDetailsDialog from '../../../Component/Veenath/FeedbackComp/FeedbackDetailsDialog';
+import { API_URL } from '../../../config';
 
 const FeedbackCardView = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -14,7 +15,7 @@ const FeedbackCardView = () => {
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/feedbacks');
+        const response = await axios.get(`${API_URL}/api/feedbacks`);
         setFeedbacks(response.data.feedbacks);
       } catch (err) {
         console.error(err);

@@ -13,15 +13,16 @@ const cron = require('node-cron');
 const moment = require('moment');
 const Lab = require('./models/Oshini/lab_account/labAccount.js');
 const LabSlot = require('./models/Oshini/lab_account/labSlot');
-// Generate a random secret key
-const secretKey = crypto.randomBytes(32).toString('hex');
-console.log('Generated secret key:', secretKey);
+// Use a fixed secret key so sessions persist across server restarts
+const secretKey = process.env.SESSION_SECRET || 'agronest-session-secret-key-2024';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://nayum:Nayum12@cluster0.vhbehcx.mongodb.net/AgroNest';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 // Set up session middleware
 app.use(session({
   secret: secretKey, 
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: 'mongodb+srv://sudarshan16811:16811@cluster0.tww6ryy.mongodb.net/AgroNest' }), 
+  store: MongoStore.create({ mongoUrl: MONGODB_URI }), 
 }));
 //end---------------------------------
 const fs = require('fs');
@@ -29,9 +30,12 @@ const fs = require('fs');
 const articleRoutes = require('./routes/Nilupul/articleRoutes.js');
 
 const PORT = process.env.PORT || 8070;
-app.use(cors());
+app.use(cors({
+  origin: FRONTEND_URL,
+  credentials: true
+}));
 app.use(bodyParser.json());
-mongoose.connect('mongodb+srv://sudarshan16811:16811@cluster0.tww6ryy.mongodb.net/AgroNest', {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {

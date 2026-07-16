@@ -5,6 +5,7 @@ import {  Delete as DeleteIcon, Email as EmailIcon, GetApp as GetAppIcon } from 
 import axios from 'axios';
 import ConfirmationDialog from './ConfirmationDialog';
 import Sidebar from './Sidebar';
+import { API_URL } from '../../config';
 
 export const Example = () => {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ export const Example = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8070/viewdealers'); // Assuming your backend is running on the same domain
+        const response = await fetch(`${API_URL}/viewdealers`); // Assuming your backend is running on the same domain
         if (!response.ok) {
           throw new Error('Failed to fetch dealers');
         }
@@ -88,7 +89,7 @@ export const Example = () => {
   const handleDelete = async () => {
     const id = selectedDealer._id;
     try {
-      const response = await axios.delete(`http://localhost:8070/viewdealers/delete/${id}`);
+      const response = await axios.delete(`${API_URL}/viewdealers/delete/${id}`);
       if (response.status === 200) {
         const newData = data.filter(dealer => dealer._id !== id);
         setData(newData);

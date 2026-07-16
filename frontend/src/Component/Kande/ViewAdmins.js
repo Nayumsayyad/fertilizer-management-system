@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, TableHead, TableBody, TableRow, TableCell, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
+import { API_URL } from '../../config';
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,7 @@ const UserTable = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/admin');
+        const response = await axios.get(`${API_URL}/api/admin`);
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -48,9 +49,9 @@ const UserTable = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8070/api/admin/${deleteUserId}`);
+      await axios.delete(`${API_URL}/api/admin/${deleteUserId}`);
       // Refresh the user list after deletion
-      const response = await axios.get('http://localhost:8070/api/admin');
+      const response = await axios.get(`${API_URL}/api/admin`);
       setUsers(response.data);
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -75,9 +76,9 @@ const UserTable = () => {
 
   const handleUpdateSubmit = async () => {
     try {
-      await axios.put(`http://localhost:8070/api/admin/${selectedUser._id}`, updatedUser);
+      await axios.put(`${API_URL}/api/admin/${selectedUser._id}`, updatedUser);
       // Refresh the user list after update
-      const response = await axios.get('http://localhost:8070/api/admin');
+      const response = await axios.get(`${API_URL}/api/admin`);
       setUsers(response.data);
     } catch (error) {
       console.error('Error updating user:', error);

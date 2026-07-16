@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Chart from "chart.js/auto";
+import { API_URL } from '../../config';
 
 const TopAreasChart = () => {
   const [topAreas, setTopAreas] = useState([]);
@@ -9,7 +10,7 @@ const TopAreasChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8070/toparea/");
+        const response = await axios.get(`${API_URL}/toparea/`);
         setTopAreas(response.data);
         setLoading(false);
         renderChart(response.data);

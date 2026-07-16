@@ -4,6 +4,7 @@ import { Typography, Tabs, Tab, Badge, TextField, Button, Grid } from '@mui/mate
 import { Search as SearchIcon } from '@mui/icons-material';
 import InquiryRow from '../../../Component/Veenath/InquiryComp/InquiryRow';
 import InquiryDetailsPopup from '../../../Component/Veenath/InquiryComp/InquiryDetailsPopup';
+import { API_URL } from '../../../config';
 
 const DealerInquiry = () => {
   const [pendingInquiries, setPendingInquiries] = useState([]);
@@ -16,7 +17,7 @@ const DealerInquiry = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/reports');
+        const response = await axios.get(`${API_URL}/api/reports`);
         const allInquiries = response.data;
         const dealerPendingInquiries = allInquiries.filter(inquiry => inquiry.status === 'Pending' && inquiry.category === 'Dealer');
         const dealerResolvedInquiries = allInquiries.filter(inquiry => inquiry.status === 'Resolved' && inquiry.category === 'Dealer');

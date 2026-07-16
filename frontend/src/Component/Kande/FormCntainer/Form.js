@@ -3,6 +3,7 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { API_URL } from '../../../config';
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8070/api/admin', formData);
+      await axios.post(`${API_URL}/api/admin`, formData);
       alert('Data submitted successfully');
       // Optionally clear form fields after submission
       setFormData({

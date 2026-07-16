@@ -15,6 +15,8 @@ import AllLabsPDFGenerator from './AllLabsPDFGenerator';
 import labBackground from '../../images/Rahul/but2.jpg'; 
 import buttonBackground from '../../images/Rahul/but2.jpg';
 import Sidebar from './Sidebar';
+import { API_URL } from '../../config';
+
 const LabCards = () => {
   const [labs, setLabs] = useState([]);
   const [filteredLabs, setFilteredLabs] = useState([]);
@@ -27,7 +29,7 @@ const LabCards = () => {
   useEffect(() => {
     const fetchLabs = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/labs');
+        const response = await axios.get(`${API_URL}/labs`);
         const fetchedLabs = response.data;
         setLabs(fetchedLabs);
         setFilteredLabs(fetchedLabs);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { 
   Card, 
@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import SearchBar from './SearchBar';
 import { PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
+import { API_URL } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -63,6 +64,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ArticlePDF = ({ title, content }) => (
+  <Document>
+    <Page>
+      <Text>{content}</Text>
+    </Page>
+  </Document>
+);
+
 const ArticleList = () => {
   const classes = useStyles();
   const [articles, setArticles] = useState([]);
@@ -71,32 +80,25 @@ const ArticleList = () => {
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:8070/api/articles')
+    axios.get(`${API_URL}/api/articles`)
       .then(res => {
         setArticles(res.data);
       })
       .catch(err => console.log(err));
   }, []);
 
-  const filteredArticles = articles.filter(article =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const sortedArticles = filteredArticles.sort((a, b) => {
-    if (sortBy === 'wordCount') {
-      return a.content.split(/\s+/).length - b.content.split(/\s+/).length;
-    } else {
-      return new Date(b.date) - new Date(a.date);
-    }
-  });
-
-  const ArticlePDF = ({ title, content }) => (
-    <Document>
-      <Page>
-        <Text>{content}</Text>
-      </Page>
-    </Document>
-  );
+  const filteredArticles = useMemo(() => {
+    const filtered = articles.filter(article =>
+      article.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    return filtered.sort((a, b) => {
+      if (sortBy === 'wordCount') {
+        return a.content.split(/\s+/).length - b.content.split(/\s+/).length;
+      } else {
+        return new Date(b.date) - new Date(a.date);
+      }
+    });
+  }, [articles, searchTerm, sortBy]);
 
   const handleWatchNow = () => {
     setShowVideo(true);
@@ -111,7 +113,7 @@ const ArticleList = () => {
   };
 
   return (
-    <div style={{ padding: '50px', width:'auto', backgroundColor: '#F5F5F5', minHeight: '300vh' }}>
+    <div style={{ padding: '50px', width:'auto', backgroundColor: '#F5F5F5' }}>
       <Container >
         <div style={{ padding: '20px', backgroundColor: '#F5F5F5' }}>
         <Typography 
@@ -171,7 +173,7 @@ const ArticleList = () => {
             </Fade>
           </div>
 
-          {sortedArticles.map((article, index) => (
+          {filteredArticles.map((article) => (
             <Card key={article._id} style={{ marginBottom: '20px' }}>
               <CardContent>
                 <Typography variant="h6" gutterBottom style={{ color: '#4CAF50' }}>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Grid } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from '../../config';
 
 const FarmerListComponent = () => {
   const [farmers, setFarmers] = useState([]);
@@ -21,7 +22,7 @@ const FarmerListComponent = () => {
   useEffect(() => {
     const fetchFarmers = async () => {      //fetchfarmers
       try {
-        const response = await axios.get('http://localhost:8070/farmerReport/farmers');
+        const response = await axios.get(`${API_URL}/farmerReport/farmers`);
         setFarmers(response.data);
       } catch (error) {
         setError(error.message);
@@ -35,7 +36,7 @@ const FarmerListComponent = () => {
 
   const fetchReplies = async (farmerId) => {
     try {
-      const response = await axios.get(`http://localhost:8070/farmerReport/replies/${farmerId}`);
+      const response = await axios.get(`${API_URL}/farmerReport/replies/${farmerId}`);
       setReplies(response.data);
     } catch (error) {
       console.error('Error fetching replies:', error);
@@ -44,7 +45,7 @@ const FarmerListComponent = () => {
 
   const deleteReply = async (replyId) => {
     try {
-      await axios.delete(`http://localhost:8070/farmerReport/replies/${replyId}`);
+      await axios.delete(`${API_URL}/farmerReport/replies/${replyId}`);
       setReplies(replies.filter(reply => reply._id !== replyId));
       toast.success('Reply deleted successfully', { autoClose: 2000 }); 
     } catch (error) {
@@ -68,7 +69,7 @@ const FarmerListComponent = () => {
     try {
       if (editMode) {
         //update in 
-        await axios.put(`http://localhost:8070/farmerReport/replies/${editedReply._id}`, { replyText });
+        await axios.put(`${API_URL}/farmerReport/replies/${editedReply._id}`, { replyText });
         const updatedReplies = replies.map(reply =>
           reply._id === editedReply._id ? { ...reply, replyText } : reply
         );
@@ -77,10 +78,10 @@ const FarmerListComponent = () => {
         toast.success('Reply updated successfully'); 
       } else {
         
-        const response = await axios.post(`http://localhost:8070/farmerReport/farmers/${selectedFarmer._id}/reply`, { replyText });
+        const response = await axios.post(`${API_URL}/farmerReport/farmers/${selectedFarmer._id}/reply`, { replyText });
       
         // Update  to "Resolved"
-        await axios.put(`http://localhost:8070/farmerReport/farmers/${selectedFarmer._id}/status`);
+        await axios.put(`${API_URL}/farmerReport/farmers/${selectedFarmer._id}/status`);
   
         // Update the local state 
         const updatedFarmer = farmers.map(farmer => 

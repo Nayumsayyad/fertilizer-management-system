@@ -5,6 +5,7 @@ import { Edit as EditIcon, Delete as DeleteIcon, Email as EmailIcon, GetApp as G
 import axios from 'axios';
 import ConfirmationDialog from './ConfirmationDialog';
 import Sidebar from './Sidebar';
+import { API_URL } from '../../config';
 
 export const Example = () => {
   const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ export const Example = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8070/viewfarmers'); // Fetch farmer data
+        const response = await fetch(`${API_URL}/viewfarmers`); // Fetch farmer data
         if (!response.ok) {
           throw new Error('Failed to fetch farmers');
         }
@@ -77,7 +78,7 @@ export const Example = () => {
   const handleDelete = async () => {
     const id = selectedFarmer._id;
     try {
-      const response = await axios.delete(`http://localhost:8070/viewfarmers/delete/${id}`); // Delete farmer
+      const response = await axios.delete(`${API_URL}/viewfarmers/delete/${id}`); // Delete farmer
       if (response.status === 200) {
         const newData = data.filter(farmer => farmer._id !== id);
         setData(newData);

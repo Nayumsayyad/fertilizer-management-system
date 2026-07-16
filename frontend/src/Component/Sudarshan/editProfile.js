@@ -15,6 +15,7 @@ import PopupMessage from '../../pages/common/PopUp';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
+import { API_URL } from '../../config';
 
 const EditProfile = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -38,7 +39,7 @@ const EditProfile = () => {
   const fetchDealerData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8070/dealer/dealers', {
+        const response = await axios.get(`${API_URL}/dealer/dealers`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -118,7 +119,7 @@ const EditProfile = () => {
   
       
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:8070/dealer/updateDealer/${dealerData._id}`, updatedDetails, {
+      await axios.put(`${API_URL}/dealer/updateDealer/${dealerData._id}`, updatedDetails, {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -138,7 +139,7 @@ const EditProfile = () => {
   const confirmDeleteProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:8070/dealer/delete/${dealerData._id}`, {
+      await axios.delete(`${API_URL}/dealer/delete/${dealerData._id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         },

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Grid, Input, Typography } from "@mui/material";
 import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const RegForm = (props) => {
    const Navigate= useNavigate();
@@ -63,7 +64,7 @@ const handlePhoneBlur = () => {
 const handleSubmit = async (e) => {
    e.preventDefault();
    try {
-       const response = await axios.post('http://localhost:8070/Farmer/add', formData); 
+       const response = await axios.post(`${API_URL}/Farmer/add`, formData); 
        console.log(response.data); 
        setFormData({
          first_name: '',
@@ -77,8 +78,13 @@ const handleSubmit = async (e) => {
        });
        Navigate(`/Login`);
    } catch (error) {
-       console.error('Error:' , error.response.data);
-        setErrorMessages(error.response.data.error);
+       if (error.response && error.response.data) {
+           console.error('Error:', error.response.data);
+           setErrorMessages(error.response.data.error);
+       } else {
+           console.error('Error:', error.message);
+           setErrorMessages('Something went wrong. Please try again.');
+       }
    }
 };
 

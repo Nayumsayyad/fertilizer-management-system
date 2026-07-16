@@ -25,6 +25,7 @@ import AddFertilizer from '../../Component/Sudarshan/AddFertilizer';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
+import { API_URL } from '../../config';
 
 const ManageShop = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -46,7 +47,7 @@ const ManageShop = () => {
       const fetchDealerData = async () => {
           try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8070/dealer/dealers', {
+            const response = await axios.get(`${API_URL}/dealer/dealers`, {
               headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -58,7 +59,7 @@ const ManageShop = () => {
         console.log('Dealer ID:', dealerId);
         setDealerId(dealerId);
 
-        const fertilizersResponse = await axios.get(`http://localhost:8070/dealer/${dealerId}/fertilizers`);
+        const fertilizersResponse = await axios.get(`${API_URL}/dealer/${dealerId}/fertilizers`);
         console.log('Fertilizers response:', fertilizersResponse);
                 setFertilizers(fertilizersResponse.data);
                 console.log('Fertilizers:', fertilizersResponse.data);
@@ -143,7 +144,7 @@ const ManageShop = () => {
           console.log('Price:', price);
           console.log('Quantity:', quantity);
           
-          const response = await axios.put(`http://localhost:8070/dealer/updatefertilizers/${fertilizerId}`, {
+          const response = await axios.put(`${API_URL}/dealer/updatefertilizers/${fertilizerId}`, {
             price: price,
             quantity: quantity
           });
@@ -167,7 +168,7 @@ const ManageShop = () => {
         try {
           console.log('Deleting fertilizer with ID:', fertilizerId);
           
-          const response = await axios.delete(`http://localhost:8070/dealer/deletefertilizer/${fertilizerId}`);
+          const response = await axios.delete(`${API_URL}/dealer/deletefertilizer/${fertilizerId}`);
           
           console.log('Fertilizer deleted successfully:', response.data);
           setSuccessMessage('Product deleted successfully');

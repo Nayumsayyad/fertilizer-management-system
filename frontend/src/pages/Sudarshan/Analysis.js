@@ -24,6 +24,7 @@ import recovery from '../../images/Sudarshan/fertilizer images/recovery.png';
 import xfert from '../../images/Sudarshan/fertilizer images/xfert.png';
 import dolomite from '../../images/Sudarshan/fertilizer images/dolomite.png';
 import Pdfgen from '../../Component/Sudarshan/pdfgenerator'
+import { API_URL } from '../../config';
 
 const ShopAnalysis = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -45,7 +46,7 @@ const ShopAnalysis = () => {
     const fetchFertilizerDataForChart = async () => {
       try {
           const token = localStorage.getItem('token');
-          const response = await axios.get('http://localhost:8070/dealer/dealers', {
+          const response = await axios.get(`${API_URL}/dealer/dealers`, {
               headers: {
                   Authorization: `Bearer ${token}`
               }
@@ -57,7 +58,7 @@ const ShopAnalysis = () => {
           console.log('Dealer ID:', dealerId);
           setDealerId(dealerId);
   
-          const fertilizersResponse = await axios.get(`http://localhost:8070/dealer/${dealerId}/fertilizers`);
+          const fertilizersResponse = await axios.get(`${API_URL}/dealer/${dealerId}/fertilizers`);
           console.log('Fertilizers response:', fertilizersResponse);
           setFertilizers(fertilizersResponse.data);
           console.log('Fertilizers:', fertilizersResponse.data);
@@ -177,7 +178,7 @@ const ShopAnalysis = () => {
 
     console.log('Searching for fertilizer details with term:', searchTerm);
     console.log('Dealer ID:', dealerId);
-    axios.get(`http://localhost:8070/dealer/fertilizers/search?dealerId=${dealerId}&term=${searchTerm}`)
+    axios.get(`${API_URL}/dealer/fertilizers/search?dealerId=${dealerId}&term=${searchTerm}`)
         .then(response => {
           console.log('Fertilizer details fetched successfully:', response.data);
             setSelectedFertilizer(response.data);
@@ -195,7 +196,7 @@ const handleSearchChange = (event,dealerId) => {
   setSearchTerm(value);
   console.log('Searching for suggestions with term:', value);
   console.log('Dealer ID:', dealerId);
-  axios.get(`http://localhost:8070/dealer/fertilizers/search?dealerId=${dealerId}&term=${value}`)
+  axios.get(`${API_URL}/dealer/fertilizers/search?dealerId=${dealerId}&term=${value}`)
       .then(response => {
           console.log('Suggestions fetched successfully:', response.data);
           setSuggestions(response.data);

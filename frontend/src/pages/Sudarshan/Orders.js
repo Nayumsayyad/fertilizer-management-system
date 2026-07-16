@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import DoDisturbOnOutlinedIcon from '@mui/icons-material/DoDisturbOnOutlined';
+import { API_URL } from '../../config';
 
 const Orders = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -34,7 +35,7 @@ const Orders = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8070/order/displayAll');
+            const response = await axios.get(`${API_URL}/order/displayAll`);
             setOrders(response.data);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -43,7 +44,7 @@ const Orders = () => {
 
     const handleUpdateStatus = async (itemId) => {
       try {
-          await axios.put(`http://localhost:8070/order/update/${itemId}`, { status: 'Confirmed' });
+          await axios.put(`${API_URL}/order/update/${itemId}`, { status: 'Confirmed' });
           console.log('Status updated successfully');
           setSuccessMessage('Order Confirmed successfully');
           fetchData();
@@ -54,7 +55,7 @@ const Orders = () => {
 
   const handleUpdateStatusR = async (itemId) => {
     try {
-        await axios.put(`http://localhost:8070/order/update/${itemId}`, { status: 'Rejected' });
+        await axios.put(`${API_URL}/order/update/${itemId}`, { status: 'Rejected' });
         console.log('Status updated successfully');
         setSuccessMessage('Order Rejected successfully');
         setShowConfirmationDialog(false);

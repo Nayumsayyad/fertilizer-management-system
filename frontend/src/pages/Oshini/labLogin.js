@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; 
 import { TextField, Button, styled } from '@mui/material';
 import axios from 'axios'; 
+import { API_URL } from '../../config';
 
 
 const Container = styled('div')({
@@ -48,7 +49,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:8070/labAccount/login', {
+        const response = await axios.post(`${API_URL}/labAccount/login`, {
             userName: formData.userName,
             password: formData.password,
           });

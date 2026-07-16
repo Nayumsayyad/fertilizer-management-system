@@ -10,6 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../../config';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,7 +39,7 @@ const ViewResolvedRequests = () => {
   useEffect(() => {
     const fetchResolvedRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/SoilTest/getResolvedRequests');
+        const response = await axios.get(`${API_URL}/SoilTest/getResolvedRequests`);
         setResolvedRequests(response.data);
       } catch (error) {
         console.error('Error fetching resolved soil test requests:', error);
@@ -52,7 +53,7 @@ const ViewResolvedRequests = () => {
   const fetchAndOpenPDF = async (labReportId) => {
     try {
       // Fetch the PDF data from the backend
-      const response = await fetch(`http://localhost:8070/labReport/get-pdf/${labReportId}`);
+      const response = await fetch(`${API_URL}/labReport/get-pdf/${labReportId}`);
       
       // Check if the response is successful
       if (!response.ok) {

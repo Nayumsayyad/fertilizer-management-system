@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Typography, InputBase, Tabs, Tab, Paper, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Button, FormControl, Select, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { API_URL } from '../../config';
 
 function CompletedRequests() {
   const [userName, setUserName] = useState('');
@@ -21,10 +22,10 @@ function CompletedRequests() {
 
     const fetchCompletedRequests = async () => {
       try {
-        const labIdResponse = await axios.get(`http://localhost:8070/labAccount/getLabIdByUsername/${storedUserName}`);
+        const labIdResponse = await axios.get(`${API_URL}/labAccount/getLabIdByUsername/${storedUserName}`);
         const labId = labIdResponse.data.labId;
 
-        const response = await axios.get(`http://localhost:8070/testRequest/retrieveCompletedTestRequests/${labId}`);
+        const response = await axios.get(`${API_URL}/testRequest/retrieveCompletedTestRequests/${labId}`);
         setCompletedRequests(response.data.testRequests);
 
         const names = {};
@@ -52,10 +53,10 @@ function CompletedRequests() {
   const handleStatusChange = async (event, requestId) => {
     const newStatus = event.target.value;
     try {
-      await axios.put(`http://localhost:8070/testRequest/updateStatus/${requestId}`, { status: newStatus });
+      await axios.put(`${API_URL}/testRequest/updateStatus/${requestId}`, { status: newStatus });
 
       if (newStatus === 'rejected') {
-        await axios.put('http://localhost:8070/labAccount/incrementRejected', { userName: sessionStorage.getItem('userName') });
+        await axios.put(`${API_URL}/labAccount/incrementRejected`, { userName: sessionStorage.getItem('userName') });
       }
 
       setCompletedRequests(completedRequests.filter(request => request._id !== requestId));
@@ -69,7 +70,7 @@ function CompletedRequests() {
   };
   const getFarmerName = async (farmerId) => {
     try {
-      const response = await axios.get(`http://localhost:8070/farmer/getName/${farmerId}`);
+      const response = await axios.get(`${API_URL}/farmer/getName/${farmerId}`);
       return response.data.fullName;
     } catch (error) {
       console.error('Error fetching farmer name:', error);

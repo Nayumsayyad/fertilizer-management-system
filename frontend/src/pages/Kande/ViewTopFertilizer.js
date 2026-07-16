@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
+import { API_URL } from '../../config';
 import { PDFDocument} from '@react-pdf/renderer';
 import { AiOutlineSearch } from "react-icons/ai";
 import { PDFDownloadLink, Document, Page, View, Text, StyleSheet , Image} from "@react-pdf/renderer";
@@ -121,7 +122,7 @@ const ViewTopFertilizer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8070/topfertilizercategory/");
+        const response = await axios.get(`${API_URL}/topfertilizercategory/`);
         setTopFertilizers(response.data);
         setLoading(false);
       } catch (error) {
@@ -149,7 +150,7 @@ const ViewTopFertilizer = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8070/topfertilizercategory/update/${updateFormData._id}`, updateFormData);
+      await axios.put(`${API_URL}/topfertilizercategory/update/${updateFormData._id}`, updateFormData);
       // Update the state with the updated fertilizer
       setTopFertilizers(topFertilizers.map(fertilizer => {
         if (fertilizer._id === updateFormData._id) {
@@ -176,7 +177,7 @@ const ViewTopFertilizer = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8070/topfertilizercategory/delete/${id}`);
+          await axios.delete(`${API_URL}/topfertilizercategory/delete/${id}`);
           // Remove the deleted fertilizer from the state
           setTopFertilizers(topFertilizers.filter(fertilizer => fertilizer._id !== id));
           console.log("Fertilizer deleted successfully:", id);

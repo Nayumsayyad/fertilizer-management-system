@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Typography, TextField, Button, Grid, Paper } from '@mui/material';
+import { API_URL } from '../../config';
 
 const UpdateProfile = () => {
   const { farmerID } = useParams();
@@ -21,7 +22,7 @@ const UpdateProfile = () => {
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/Farmer/get/${farmerID}`);
+        const response = await axios.get(`${API_URL}/Farmer/get/${farmerID}`);
         const farmer = response.data.farmer;
         setFormData({
           first_name: farmer.first_name,
@@ -54,7 +55,7 @@ const UpdateProfile = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:8070/Farmer/update/${farmerID}`, formData);
+      await axios.put(`${API_URL}/Farmer/update/${farmerID}`, formData);
       navigate(`/farmer/${farmerID}`)
       // Redirect or show success message
     } catch (error) {

@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import { API_URL } from '../../../config';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -43,7 +44,7 @@ const ViewRequests = () => {
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/SoilTest/getPendingRequests');
+        const response = await axios.get(`${API_URL}/SoilTest/getPendingRequests`);
         setPendingRequests(response.data);
       } catch (error) {
         console.error('Error fetching soil test requests:', error);
@@ -68,9 +69,9 @@ const ViewRequests = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8070/SoilTest/delete/${selectedRequestId}`);
+      await axios.delete(`${API_URL}/SoilTest/delete/${selectedRequestId}`);
 
-      const response = await axios.get('http://localhost:8070/SoilTest/getPendingRequests');
+      const response = await axios.get(`${API_URL}/SoilTest/getPendingRequests`);
       setPendingRequests(response.data);
     } catch (error) {
       console.error('Error deleting soil test request:', error);

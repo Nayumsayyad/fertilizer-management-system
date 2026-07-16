@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const Login = ({ setIsLoggedIn }) => {
   const [formData, setFormData] = useState({
@@ -23,8 +24,10 @@ const Login = ({ setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8070/Farmer/login', formData);
+      const response = await axios.post(`${API_URL}/Farmer/login`, formData);
       const { user } = response.data;
+      localStorage.setItem('logId', user._id);
+      localStorage.setItem('isLoggedIn', 'true');
       setIsLoggedIn(true);
       navigate(`/farmer/${user._id}`);
     } catch (error) {

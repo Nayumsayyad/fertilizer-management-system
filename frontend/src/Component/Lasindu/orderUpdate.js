@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const UpdateOrderDialog = ({ open, onClose }) => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ const UpdateOrderDialog = ({ open, onClose }) => {
   useEffect(() => {
     const fetchItemDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/order/get/${id}`);
+        const response = await axios.get(`${API_URL}/order/get/${id}`);
         const item = response.data.item;
         setItemName(item.name);
         setUpdatedOrder((prevOrder) => ({
@@ -38,7 +39,7 @@ const UpdateOrderDialog = ({ open, onClose }) => {
     }));
 
     try {
-      const response = await axios.get(`http://localhost:8070/order/get/${id}`);
+      const response = await axios.get(`${API_URL}/order/get/${id}`);
       const itemPrice = response.data.item.price;
 
       const newPrice = itemPrice * parseInt(value);
@@ -54,7 +55,7 @@ const UpdateOrderDialog = ({ open, onClose }) => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost:8070/order/update/${id}`, updatedOrder);
+      await axios.put(`${API_URL}/order/update/${id}`, updatedOrder);
       window.location.href='/Order-History'
       onClose();
     } catch (error) {

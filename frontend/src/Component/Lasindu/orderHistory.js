@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Typography, List, ListItem, ListItemText, Divider, Button, Link } from '@mui/material';
 import CookiesBanner from '../Lasindu/Popup/OrderPopUp';
+import { API_URL } from '../../config';
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +12,7 @@ const OrderHistoryPage = () => {
 
   useEffect(() => {
     const farmerId = localStorage.getItem('logId');
-    axios.get(`http://localhost:8070/order/history/${farmerId}`)
+    axios.get(`${API_URL}/order/history/${farmerId}`)
       .then((response) => {
         setOrders(response.data);
         setLoading(false);

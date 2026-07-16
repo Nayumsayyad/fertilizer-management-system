@@ -5,6 +5,7 @@ import { Container, Grid, Paper, Box, Avatar, Typography,FormControl,InputLabel,
 import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PopupMessage from '../common/PopUp';
+import { API_URL } from '../../config';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -36,7 +37,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8070/dealer/registerDealer', {
+      const response = await axios.post(`${API_URL}/dealer/registerDealer`, {
         name: name,
         address: address,
         email: email,
@@ -57,10 +58,11 @@ const SignUp = () => {
     } catch (error) {
         if (error.response && error.response.data) {
             console.error('Signup error:', error.response.data);
+            setErrorMessage(error.response.data.error);
           } else {
-            console.error('Signup error:', error.message); 
+            console.error('Signup error:', error.message);
+            setErrorMessage('Something went wrong. Please try again.');
           }
-          setErrorMessage(error.response.data.error);
     }
   };
 

@@ -13,6 +13,7 @@ import StepConnector from '@mui/material/StepConnector';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { API_URL } from '../../../config';
 
 const StyledSnackbar = styled(Snackbar)({
   position: 'fixed',
@@ -40,7 +41,7 @@ const FormPage = () => {
     const fetchInquiryDetails = async () => {
       try {
         if (inquiryId) {
-          const response = await axios.get(`http://localhost:8070/api/reports/${inquiryId}`);
+          const response = await axios.get(`${API_URL}/api/reports/${inquiryId}`);
           const { name, topic, description, priority, area ,category } = response.data;
           console.log('Fetched inquiry details:', response.data);
           setName(name);
@@ -68,7 +69,7 @@ const FormPage = () => {
       }
 
       if (inquiryId) {
-        await axios.put(`http://localhost:8070/api/reports/${inquiryId}`, {
+        await axios.put(`${API_URL}/api/reports/${inquiryId}`, {
           name,
           topic,
           description,
@@ -83,7 +84,7 @@ const FormPage = () => {
           navigate('/');
         }, 3000);
       } else {
-        await axios.post('http://localhost:8070/api/reports', {
+        await axios.post(`${API_URL}/api/reports`, {
           name,
           topic,
           description,

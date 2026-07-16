@@ -3,6 +3,7 @@ import { Container, Typography, Grid, Button, Link } from '@mui/material';
 import Sidebar from '../../Component/Thisaravi/Sidebar';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const FarmerProfile = () => {
   const { farmerID } = useParams();
@@ -13,7 +14,7 @@ const FarmerProfile = () => {
   useEffect(() => {
     const fetchFarmerData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8070/Farmer/get/${farmerID}`);
+        const response = await axios.get(`${API_URL}/Farmer/get/${farmerID}`);
         setFarmerData(response.data.farmer);
         setError(null);
       } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, FormControl } from "react-bootstrap";
 import axios from "axios";
+import { API_URL } from '../../config';
 import { PDFDocument} from '@react-pdf/renderer';
 import { AiOutlineSearch } from "react-icons/ai";
 import { PDFDownloadLink, Document, Page, View, Text, StyleSheet , Image} from "@react-pdf/renderer";
@@ -122,7 +123,7 @@ const ViewTopAreas = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8070/toparea/");
+        const response = await axios.get(`${API_URL}/toparea/`);
         setTopAreas(response.data);
         setLoading(false);
       } catch (error) {
@@ -150,7 +151,7 @@ const ViewTopAreas = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8070/topdealer/update/${updateFormData._id}`, updateFormData);
+      await axios.put(`${API_URL}/topdealer/update/${updateFormData._id}`, updateFormData);
       // Update the state with the updated fertilizer
       setTopAreas(topAreas.map(area => {
         if (area._id === updateFormData._id) {
@@ -178,7 +179,7 @@ const ViewTopAreas = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8070/toparea/delete/${id}`);
+          await axios.delete(`${API_URL}/toparea/delete/${id}`);
           // Remove the deleted fertilizer from the state
           setTopAreas(topAreas.filter(area => area._id !== id));
           console.log("Area deleted successfully:", id);

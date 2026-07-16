@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
+import { API_URL } from '../../config';
 
 const DeleteOrderButton = ({ orderId }) => {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,7 @@ const DeleteOrderButton = ({ orderId }) => {
   };
 
   const handleConfirmDelete = () => {
-    axios.delete(`http://localhost:8070/order/delete/${orderId}`)
+    axios.delete(`${API_URL}/order/delete/${orderId}`)
       .then((response) => {
         console.log('Order deleted successfully:', response);
         setOpen(false);

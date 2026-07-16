@@ -8,6 +8,7 @@ import { Icon } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import DealerRating from '../../pages/Veenath/FeedbackPages/DealerRating';
+import { API_URL } from '../../config';
 
 const DealerProfile = () => {
   const [dealerData, setDealerData] = useState(null);
@@ -20,7 +21,7 @@ const DealerProfile = () => {
       try {
         const token = localStorage.getItem('token');
         console.log('Authorization Token:', token);
-        const response = await axios.get('http://localhost:8070/dealer/dealers', {
+        const response = await axios.get(`${API_URL}/dealer/dealers`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

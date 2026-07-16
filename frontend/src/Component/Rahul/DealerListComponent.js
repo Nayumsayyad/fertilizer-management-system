@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Tab, Tabs, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Grid } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from '../../config';
 
 const DealerListComponent = () => {
   const [dealers, setDealers] = useState([]);
@@ -21,7 +22,7 @@ const DealerListComponent = () => {
   useEffect(() => {
     const fetchDealers = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/farmerReport/dealers');
+        const response = await axios.get(`${API_URL}/farmerReport/dealers`);
         setDealers(response.data);
       } catch (error) {
         setError(error.message);
@@ -35,7 +36,7 @@ const DealerListComponent = () => {
 
   const fetchReplies = async (dealerId) => {
     try {
-      const response = await axios.get(`http://localhost:8070/farmerReport/replies/${dealerId}`);
+      const response = await axios.get(`${API_URL}/farmerReport/replies/${dealerId}`);
       setReplies(response.data);
     } catch (error) {
       console.error('Error fetching replies:', error);
@@ -44,7 +45,7 @@ const DealerListComponent = () => {
 
   const deleteReply = async (replyId) => {
     try {
-      await axios.delete(`http://localhost:8070/farmerReport/replies/${replyId}`);
+      await axios.delete(`${API_URL}/farmerReport/replies/${replyId}`);
       setReplies(replies.filter(reply => reply._id !== replyId));
       toast.success('Reply deleted successfully', { autoClose: 3000 }); // Notification disappears after 3 seconds
     } catch (error) {
@@ -100,10 +101,10 @@ const DealerListComponent = () => {
         await handleUpdateClick();
       } else {
         // Perform create if not in edit mode
-        const response = await axios.post(`http://localhost:8070/farmerReport/dealers/${selectedDealer._id}/reply`, { replyText });
+        const response = await axios.post(`${API_URL}/farmerReport/dealers/${selectedDealer._id}/reply`, { replyText });
       
         // Update the status to "Resolved"
-        await axios.put(`http://localhost:8070/farmerReport/dealers/${selectedDealer._id}/status`);
+        await axios.put(`${API_URL}/farmerReport/dealers/${selectedDealer._id}/status`);
   
         // Update the local state of dealers
         const updatedDealers = dealers.map(dealer => 
@@ -128,7 +129,7 @@ const DealerListComponent = () => {
   const handleUpdateClick = async () => {
     try {
       const updatedReply = { ...editedReply, replyText }; // Combine edited reply with updated text
-      const response = await axios.put(`http://localhost:8070/farmerReport/replies/${editedReply._id}`, { replyText });
+      const response = await axios.put(`${API_URL}/farmerReport/replies/${editedReply._id}`, { replyText });
 
       // Update the local state of replies with the updated reply
       const updatedReplies = replies.map(reply =>

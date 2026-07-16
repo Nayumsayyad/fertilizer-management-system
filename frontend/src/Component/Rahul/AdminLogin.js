@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import paddy from '../../images/common/paddy.jpg';
 import PopupMessage from '../../pages/common/PopUp';
+import { API_URL } from '../../config';
 
 const greenTheme = createTheme({
   palette: {
@@ -37,7 +38,7 @@ const AdminLogin = ({ setIsLoggedIn }) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8070/admin/login', {
+      const response = await axios.post(`${API_URL}/admin/login`, {
         username: username,
         password: password,
       });

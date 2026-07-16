@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import Sidebar from '../../../Component/Thisaravi/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../../config';
 
 const districts = {
   Puttlam: ['Wennappuwa', 'Katuneriya', 'Chilaw'],
@@ -36,7 +37,7 @@ const SoilTestRequest = () => {
     const fetchLaboratories = async () => {
       if (district && city) {
         try {
-          const response = await fetch(`http://localhost:8070/SoilTest/laboratories/${district}/${city}`);
+          const response = await fetch(`${API_URL}/SoilTest/laboratories/${district}/${city}`);
           const data = await response.json();
           setAvailableLaboratories(data);
         } catch (error) {
@@ -62,7 +63,7 @@ const SoilTestRequest = () => {
     event.preventDefault();
     console.log("Form submitted!");
     try {
-      const response = await fetch('http://localhost:8070/SoilTest/add', {
+      const response = await fetch(`${API_URL}/SoilTest/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

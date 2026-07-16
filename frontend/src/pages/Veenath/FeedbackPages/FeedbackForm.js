@@ -4,6 +4,7 @@ import { Alert } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import SaveIcon from '@mui/icons-material/Save';
+import { API_URL } from '../../../config';
 
 const FeedbackForm = () => {
   const location = useLocation();
@@ -32,7 +33,7 @@ const FeedbackForm = () => {
       
       const fetchFeedback = async () => {
         try {
-          const response = await axios.get(`http://localhost:8070/api/feedbacks/${feedbackId}`);
+          const response = await axios.get(`${API_URL}/api/feedbacks/${feedbackId}`);
           const { orderId, farmerName, description, starRating } = response.data;
           setOrderId(orderId);
           setFarmerName(farmerName);
@@ -59,7 +60,7 @@ const FeedbackForm = () => {
     try {
       if (feedbackId) {
         
-        await axios.put(`http://localhost:8070/api/feedbacks/${feedbackId}`, {
+        await axios.put(`${API_URL}/api/feedbacks/${feedbackId}`, {
           orderId,
           farmerName,
           description,
@@ -67,7 +68,7 @@ const FeedbackForm = () => {
         });
       } else {
        
-        await axios.post('http://localhost:8070/api/feedbacks', {
+        await axios.post(`${API_URL}/api/feedbacks`, {
           orderId,
           farmerName,
           description,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Chart from "chart.js/auto";
+import { API_URL } from '../../../config';
 
 const TopFertilizerInputData = () => {
   const [fertilizers, setFertilizers] = useState([]);
@@ -10,7 +11,7 @@ const TopFertilizerInputData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8070/order/displayAll");
+        const response = await axios.get(`${API_URL}/order/displayAll`);
         setFertilizers(response.data);
         setLoading(false);
         renderChart(response.data);

@@ -4,6 +4,7 @@ import { TextField, Button, Card, CardContent, Typography, IconButton, Container
 import DeleteIcon from '@material-ui/icons/Delete';
 import SearchIcon from '@material-ui/icons/Search';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const ArticleForm = () => {
   const [title, setTitle] = useState('');
@@ -19,7 +20,7 @@ const ArticleForm = () => {
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get('http://localhost:8070/api/articles');
+      const response = await axios.get(`${API_URL}/api/articles`);
       setArticles(response.data);
     } catch (error) {
       console.error('Error fetching articles:', error);
@@ -34,9 +35,9 @@ const ArticleForm = () => {
     }
     try {
       if (selectedArticle) {
-        await axios.put(`http://localhost:8070/api/articles/${selectedArticle._id}`, { title, content });
+        await axios.put(`${API_URL}/api/articles/${selectedArticle._id}`, { title, content });
       } else {
-        await axios.post('http://localhost:8070/api/articles', { title, content });
+        await axios.post(`${API_URL}/api/articles`, { title, content });
       }
       setTitle('');
       setContent('');
@@ -51,7 +52,7 @@ const ArticleForm = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8070/api/articles/${id}`);
+      await axios.delete(`${API_URL}/api/articles/${id}`);
       setArticles(articles.filter(article => article._id !== id)); // Update articles state after deletion
       alert('Article deleted successfully!');
     } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { Rating } from '@mui/material';
 import axios from 'axios';
+import { API_URL } from '../../../config';
 
 const DealerRating = () => {
   const [averageRating, setAverageRating] = useState(0);
@@ -9,7 +10,7 @@ const DealerRating = () => {
   useEffect(() => {
     const fetchAverageRating = async () => {
       try {
-        const response = await axios.get('http://localhost:8070/api/feedbacks');
+        const response = await axios.get(`${API_URL}/api/feedbacks`);
         const ratings = response.data.feedbacks.map((feedback) => feedback.starRating);
         const average =
           ratings.length > 0 ? ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length : 0;

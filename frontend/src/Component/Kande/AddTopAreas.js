@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import backgroundImage from '../../images/common/background.avif'; 
 import axios from "axios"; 
 import TopareasInput from "../../pages/Kande/DataInsertGraphs/TopareasInput";
+import { API_URL } from '../../config';
 
 
 
@@ -37,7 +38,7 @@ const AddTopAreas = () => {
         } else {
             try {
                 
-                const response = await axios.post('http://localhost:8070/toparea/add', {
+                const response = await axios.post(`${API_URL}/toparea/add`, {
                  
                     area: area,
                     noofRegistrations: noofRegistrations

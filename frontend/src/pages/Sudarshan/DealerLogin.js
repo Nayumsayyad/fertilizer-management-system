@@ -5,6 +5,7 @@ import {Container, Grid, Paper, Box, Avatar, Typography,TextField, Button,CssBas
 import Link from '@mui/material/Link';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PopupMessage from '../common/PopUp';
+import { API_URL } from '../../config';
 
 const DealerLogin = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ const DealerLogin = ({ setIsLoggedIn }) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8070/dealer/loginDealer', {
+      const response = await axios.post(`${API_URL}/dealer/loginDealer`, {
         username: username,
         password: password,
       });

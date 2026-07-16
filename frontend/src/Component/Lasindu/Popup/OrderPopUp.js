@@ -17,6 +17,7 @@ import axios from 'axios';
 import DeleteOrderButton from '../OrderDelete';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import Invoice from './Invoice';
+import { API_URL } from '../../../config';
 
 const styles = StyleSheet.create({
   page: {
@@ -39,7 +40,7 @@ const CookiesBanner = ({ onClose, orderId }) => {
     const fetchOrderDetails = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:8070/order/get/${orderId}`);
+        const response = await axios.get(`${API_URL}/order/get/${orderId}`);
         setOrder(response.data);
         setOrder(response.data);
         setLoading(false);
