@@ -25,6 +25,22 @@ const orderSchema = new mongoose.Schema({
     farmerId: {
         type: String,
         required: true
+    },
+    paymentMethod: {
+        type: String,
+        default: ""
+    },
+    cardLast4: {
+        type: String,
+        default: ""
+    },
+    paymentStatus: {
+        type: String,
+        default: "Unpaid"
+    },
+    orderDate: {
+        type: Date,
+        default: Date.now
     }
 });
 

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 let Admin = require('../../models/Rahul/Admin'); 
 
@@ -21,6 +21,10 @@ router.post('/login', async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+
+    // Store user in session
+    req.session.userId = admin._id;
+    req.session.role = 'admin';
 
     // Create JWT token
     const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET || '16811', { expiresIn: '1h' });

@@ -141,6 +141,10 @@ router.route("/checkUserName").get(async (req, res) => {
 
         return res.json({ success: false, message: 'Invalid username or password' });
       } else {
+
+        // Store user in session
+        req.session.userId = user._id;
+        req.session.role = 'lab';
     
         res.json({ success: true, message: 'Login successful' });
       }

@@ -83,7 +83,8 @@ const Router = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    const farmerLoggedIn = localStorage.getItem('isLoggedIn');
+    if (token || farmerLoggedIn === 'true') {
       setIsLoggedIn(true);
     }else {
       setIsLoggedIn(false); 
@@ -92,6 +93,8 @@ const Router = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('logId');
+    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     navigate('/'); 
   };

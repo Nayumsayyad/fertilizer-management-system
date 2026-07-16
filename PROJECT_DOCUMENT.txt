@@ -1,0 +1,1011 @@
+================================================================================
+                    AGRONEST - FERTILIZER MANAGEMENT SYSTEM
+                        Complete Project Documentation
+================================================================================
+
+
+1. PROJECT OVERVIEW
+================================================================================
+
+AgroNest is a comprehensive web-based Fertilizer Management System designed to
+streamline farming operations in Sri Lanka. It connects multiple stakeholders
+in the agricultural ecosystem -- Farmers, Dealers, Laboratories, Administrators,
+and System Managers -- through a single platform.
+
+The system enables farmers to browse and order fertilizers, request soil tests,
+and provide feedback. Dealers can manage their shop inventory and handle orders.
+Laboratories can manage test requests and upload results. Administrators monitor
+the entire system, and System Managers track analytics and top performers.
+
+The platform addresses real-world agricultural challenges including:
+  - Difficulty finding and ordering fertilizers
+  - Lack of soil testing coordination
+  - No centralized management for dealer inventory
+  - Poor feedback and inquiry systems
+  - No analytics for agricultural decision-making
+
+
+2. TECHNOLOGY STACK
+================================================================================
+
+  FRONTEND:
+  ---------
+  - React 18              : Core UI framework (component-based architecture)
+  - React Router v6       : Client-side routing (76+ routes)
+  - MUI v5 (Material UI)  : Primary component library (buttons, tables, dialogs)
+  - Bootstrap / Ant Design: Additional UI components
+  - Chart.js / Recharts   : Data visualization (bar charts, analytics)
+  - Axios                 : HTTP client for API calls
+  - jsPDF / react-pdf     : PDF generation and export
+  - SweetAlert2           : Confirmation dialogs
+  - react-toastify        : Toast notifications
+  - EmailJS               : Email integration from frontend
+
+  BACKEND:
+  --------
+  - Node.js              : Server-side JavaScript runtime
+  - Express.js           : Web framework (REST API, routing, middleware)
+  - Mongoose             : MongoDB ODM (schema modeling, validation, queries)
+  - express-session      : Server-side session management
+  - connect-mongo        : Session storage in MongoDB
+  - bcrypt / bcryptjs    : Password hashing (Admin, Dealer)
+  - jsonwebtoken (JWT)   : Token-based authentication (Admin, Dealer)
+  - multer               : File upload handling (lab report PDFs)
+  - node-cron            : Scheduled tasks (time slot generation/cleanup)
+  - moment               : Date/time manipulation
+  - dotenv               : Environment variable management
+  - cors                 : Cross-origin resource sharing
+
+  DATABASE:
+  --------
+  - MongoDB Atlas        : Cloud-hosted NoSQL database
+  - Collection: AgroNest
+  - 17 Mongoose models/collections
+
+
+3. ARCHITECTURE
+================================================================================
+
+  +-------------------+        +-------------------+        +-------------------+
+  |                   |        |                   |        |                   |
+  |   React SPA       | -----> |   Express.js      | -----> |  MongoDB Atlas    |
+  |   (Port 3000)     |  REST  |   REST API        | Mongoose|  (Cloud DB)       |
+  |                   |  API   |   (Port 8070)     |        |                   |
+  +-------------------+        +-------------------+        +-------------------+
+        |                            |
+        |                            |
+  76+ Frontend Routes         75+ API Endpoints
+  5 User Roles                17 Database Models
+  8 Developer Modules         2 Cron Jobs
+  Responsive UI               Session + JWT Auth
+
+
+  User Roles:
+  -----------
+  1. Farmer       -- Browse shop, order fertilizers, soil tests, feedback
+  2. Dealer       -- Manage shop, handle orders, view analytics
+  3. Laboratory   -- Manage test requests, upload results
+  4. Administrator-- Monitor system, manage users, reply to inquiries
+  5. Manager      -- Analytics, top performers, admin management
+
+
+4. HOW TO START THE PROJECT
+================================================================================
+
+  PREREQUISITES:
+  - Node.js installed (download from https://nodejs.org/)
+  - Internet connection (for MongoDB Atlas cloud database)
+
+  BACKEND SETUP:
+  --------------
+  Open Terminal 1:
+    > cd BACKEND
+    > npm install
+    > npm run dev
+
+  This starts the backend server on http://localhost:8070
+  The server connects to MongoDB Atlas automatically.
+
+  FRONTEND SETUP:
+  ---------------
+  Open Terminal 2:
+    > cd frontend
+    > npm install --force
+    > npm start
+
+  This starts the React dev server on http://localhost:3000
+  The frontend makes API calls to http://localhost:8070.
+
+  NOTE: Both terminals must be running simultaneously.
+
+
+5. USER ROLES AND FEATURES
+================================================================================
+
+  5.1 FARMER
+  ----------
+  Login Route: /Login
+  Signup Route: /RegisterForm
+  Profile Route: /Profile/:farmerID
+
+  Features:
+  - Registration with name, email, phone, district, city, username, password
+  - Login with username and password
+  - View and edit profile
+  - Browse fertilizer shop with product images
+  - View item details and select quantity
+  - 4-step checkout: Confirm Order -> Payment Method -> Card Details -> Success
+  - View order history
+  - Submit soil test requests (select test type, crop, district, city, lab)
+  - View pending and resolved soil test requests
+  - Submit feedback with star rating (1-5)
+  - View past feedbacks
+  - Submit inquiries (Farmer/Dealer category, priority, district)
+
+  5.2 DEALER
+  ----------
+  Login Route: /loginDealer
+  Signup Route: /signupDealer
+  Profile Route: /profileDealer
+
+  Features:
+  - Registration with name, address, email, phone, store location, username, password
+  - Passwords hashed with bcrypt for security
+  - Phone validation (10 digits, starts with 07)
+  - Duplicate email/username prevention
+  - Login with JWT token authentication
+  - View and edit profile
+  - Manage shop: Add/Update/Delete fertilizers (9 types with images)
+  - View orders: Pending (confirm/reject), Confirmed, Rejected tabs
+  - Shop analytics: Bar charts, search fertilizers, sort by quantity
+  - Export stock reports as PDF
+  - View dealer rating (average from customer feedback)
+  - Reply to farmer inquiries
+
+  5.3 LABORATORY
+  --------------
+  Login Route: /labLogin
+  Signup Route: /labSignup
+  Profile Route: /labProfile
+
+  Features:
+  - Registration with name, address, phone, district, city, username, password
+  - Username uniqueness check during registration
+  - Login with session storage
+  - Dashboard with 3 tabs: Pending / Accepted / Completed
+  - Notification badge for new requests since last visit
+  - Accept or reject pending test requests
+  - Mark accepted requests as completed
+  - Upload PDF result files (drag-and-drop)
+  - View and edit lab profile
+  - Export profile as PDF
+  - Performance tracking (completed/rejected counters)
+
+  5.4 ADMINISTRATOR
+  -----------------
+  Login Route: /admin/login
+  Dashboard Route: /admin/home
+
+  Features:
+  - Login with bcrypt password verification and JWT token
+  - Dashboard with statistics: dealer count, farmer count, pending inquiries
+  - View all dealers in searchable/filterable table (MaterialReactTable)
+  - View all farmers in searchable/filterable table
+  - Delete dealers and farmers with confirmation dialog
+  - Send emails to dealers/farmers via EmailJS
+  - Export user data as PDF
+  - View laboratories in card layout with district/city filter
+  - Export lab reports as PDF
+  - Reply to farmer and dealer inquiries
+  - View user reports (tabbed dealer/farmer view)
+
+  5.5 SYSTEM MANAGER
+  ------------------
+  Login Route: /MLogin
+  Dashboard Route: /managerdashboard
+
+  Features:
+  - Login with username and password
+  - Dashboard with embedded analytics charts
+  - Manage Top Fertilizer Categories (CRUD + chart + PDF export)
+  - Manage Top Selling Dealers (CRUD + chart + PDF export)
+  - Manage Top Registration Areas (CRUD + chart + PDF export)
+  - Add new Administrator accounts
+  - View all registered administrators
+  - Search functionality across all data tables
+  - SweetAlert2 confirmation dialogs for delete operations
+
+
+6. DEVELOPER MODULES
+================================================================================
+
+  6.1 MODULE: FARMER (Developer: Thisaravi)
+  ------------------------------------------
+  Files:
+    Backend Models:  Farmer.js, SoilTest.js
+    Backend Routes:  farmers.js, soilTests.js, PDFRoutes.js
+    Frontend Pages:  RegisterForm, Login, Profile, UpdateProfile, Sidebar
+    Frontend Pages:  SoilTestRequest, ViewRequests, ResolvedRequests,
+                     RequestDetails, UpdateRequest, TestType, TestServices
+
+  Sub-modules:
+    a) Farmer Registration & Profile Management
+    b) Soil Test Request System
+       - 6 test types: Mineral Content, pH Level, Soil Moisture,
+         Salinity, Pesticides, Structure & Texture
+       - Auto-assigns laboratory based on district and city
+       - Track status: Pending -> Completed
+    c) PDF serving for test results
+
+  6.2 MODULE: DEALER (Developer: Sudarshan)
+  ------------------------------------------
+  Files:
+    Backend Models:  dealer.js, fertilizer.js
+    Backend Routes:  dealers.js, fertilizers.js
+    Frontend Pages:  DealerLogin, DealerSignUp, DealerProf, editProf,
+                     ManageShop, Orders, Analysis
+    Frontend Components: AddFertilizer, inventory, Sidebar, pdfgenerator
+
+  Sub-modules:
+    a) Dealer Registration & Authentication (bcrypt + JWT)
+    b) Fertilizer Inventory Management (CRUD with 9 types)
+       - NPK Prime, Urea, NPK Balanced, TSP, MOP,
+         Algae Solid Star, Recovery, X-Fert, Dolomite
+    c) Order Management (Pending/Confirmed/Rejected)
+    d) Shop Analytics (Chart.js bar charts, search, PDF export)
+
+  6.3 MODULE: LABORATORY (Developer: Oshini)
+  --------------------------------------------
+  Files:
+    Backend Models:  labAccount.js, labSlot.js, testRequest.js, labReport.js
+    Backend Routes:  labAccounts.js, labSlots.js, testRequests.js,
+                     labReports.js, labSlotsUtility.js
+    Frontend Pages:  signup, labLogin, labDash, accepted, completed,
+                     uploadFile, labProfile, labEdit
+    Frontend Components: signupForm
+
+  Sub-modules:
+    a) Lab Account Registration & Profile
+    b) Test Request Workflow (Pending -> Accepted -> Completed)
+    c) File Upload System (Multer, PDF uploads)
+    d) Automated Time Slot Management (cron jobs)
+       - Generates hourly slots 08:00-17:00 (skip 12:00-14:00 lunch)
+       - Auto-generates slots 3 days in advance
+       - Cleans up expired slots every hour
+
+  6.4 MODULE: INQUIRY & FEEDBACK (Developer: Veenath)
+  ----------------------------------------------------
+  Files:
+    Backend Models:  farmerReport.js, farmerfeedback.js
+    Backend Routes:  farmerReports.js, farmerfeedbacks.js
+    Frontend Pages:  inquiryCategory, formPage, farmerInquiry, dealerInquiry,
+                     FeedbackForm, PastFeedbackList, FeedbackCardView, DealerRating
+    Frontend Components: InquiryRow, InquiryDetailsPopup, FeedbackDetailsDialog
+
+  Sub-modules:
+    a) Inquiry System
+       - Categories: Farmer, Dealer
+       - Priority levels: Low, Medium, High
+       - 24 Sri Lankan districts as area options
+       - Status tracking: Pending -> Resolved
+       - Admin/Dealer can reply to inquiries
+    b) Feedback System
+       - Star rating (1-5)
+       - Order ID linking
+       - Dealer average rating calculation
+       - CRUD operations on feedbacks
+
+  6.5 MODULE: ARTICLES (Developer: Nilupul)
+  ------------------------------------------
+  Files:
+    Backend Models:  Article.js
+    Backend Routes:  articleRoutes.js
+    Frontend Pages:  ArticleList, ArticleForm, SearchBar, Form, DataTable
+
+  Features:
+    - Create/Edit/Delete articles (title max 70 chars, no numbers)
+    - Card grid display with hover effects
+    - Search bar with real-time filtering
+    - Category-based filtering
+    - PDF download of articles (react-pdf/renderer)
+    - Articles displayed on landing page
+
+  6.6 MODULE: SHOP & ORDERS (Developer: Lasindu)
+  -----------------------------------------------
+  Files:
+    Backend Models:  Item.js, Order.js
+    Backend Routes:  ItemR.js, OrderR.js
+    Frontend Components: Itemlist, ItemView, orderHistory, orderUpdate,
+                         OrderDelete, Invoice, OrderPopUp
+
+  Features:
+    - Fertilizer listing with images and search
+    - 4-step checkout process:
+      Step 1: Confirm Order (select quantity)
+      Step 2: Select Payment Method (Credit Card / Cash on Delivery)
+      Step 3: Enter Card Details (with validation)
+      Step 4: Processing animation -> Success
+    - Order history for each farmer
+    - Order ID generation on success
+    - Link to feedback form after order
+
+  6.7 MODULE: ADMIN DASHBOARD (Developer: Rahul)
+  -----------------------------------------------
+  Files:
+    Backend Models:  Admin.js, Reply.js, ReplyFarmer.js
+    Backend Routes:  adminRoutes.js, dealer.routes.js, farmer.routes.js,
+                     dealersReport.js, farmerReport.js, reply.js,
+                     countCealer.js, inquiryCount.js, labs.js, Profile.js
+    Frontend Pages:  AdminDashboard
+    Frontend Components: AdminLogin, DealerList, FarmerList, LabCard,
+                         FullWidthTabs, Sidebar, ConfirmationDialog,
+                         LabPDFGenerator, AllLabsPDFGenerator
+
+  Features:
+    - Admin login with bcrypt + JWT
+    - Dashboard statistics (dealer/farmer/inquiry counts)
+    - Dealer management table (search, filter, delete, email, PDF)
+    - Farmer management table (search, filter, delete, email, PDF)
+    - Laboratory card view (filter by district/city)
+    - Tabbed user reports view
+    - Reply system for farmer and dealer inquiries
+    - PDF export for all data views
+
+  6.8 MODULE: MANAGER ANALYTICS (Developer: Kande)
+  -------------------------------------------------
+  Files:
+    Backend Models:  Topselling.js, TopFertilizer.js, TopAreas.js,
+                     managerlogin.js
+    Backend Routes:  TopFertilizerRoutes.js, TopSellingRoutes.js,
+                     TopAreasRoutes.js, managerloginRoutes.js, admin.js
+    Frontend Pages:  SysManagerDashboard, TopfertilizerScreen,
+                     ViewTopFertilizer, TopSellingScreen, ViewTopSelling,
+                     TopAreaScreen, ViewTopAreas
+    Frontend Components: AddTopfertilizer, AddTopSelling, AddTopAreas,
+                         Form.js (admin creation), ViewAdmins, Sidebar
+
+  Features:
+    - Manager login system
+    - Dashboard with embedded Chart.js bar charts
+    - Top Fertilizer Categories: CRUD + chart + search + PDF export
+    - Top Selling Dealers: CRUD + chart + search + PDF export
+    - Top Registration Areas: CRUD + chart + search + PDF export
+    - Admin account management (create/view/delete)
+    - SweetAlert2 confirmation dialogs
+
+
+7. ALL API ENDPOINTS
+================================================================================
+
+  7.1 FARMER ENDPOINTS (Thisaravi)
+  --------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /Farmer/add                       | Register a new farmer
+  GET     | /Farmer/                          | Get all farmers
+  PUT     | /Farmer/update/:farmerID          | Update farmer profile
+  DELETE  | /Farmer/delete/:farmerID          | Delete a farmer
+  GET     | /Farmer/get/:farmerID             | Get a single farmer
+  POST    | /Farmer/login                     | Farmer login
+  GET     | /Farmer/getName/:farmerID         | Get farmer full name
+  GET     | /Farmer/checkUserName             | Check username availability
+
+  7.2 SOIL TEST ENDPOINTS (Thisaravi)
+  ------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /SoilTest/add                     | Add soil test request
+  GET     | /SoilTest/cities/:district        | Get cities with labs
+  GET     | /SoilTest/laboratories/:dist/:city| Get labs in area
+  PUT     | /SoilTest/update/:requestID       | Update test request
+  GET     | /SoilTest/getResolvedRequests     | Get completed requests
+  DELETE  | /SoilTest/delete/:requestID       | Delete test request
+  GET     | /SoilTest/get/:requestID          | Get single test request
+  GET     | /SoilTest/getPendingRequests      | Get pending requests
+
+  7.3 DEALER ENDPOINTS (Sudarshan)
+  --------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /dealer/registerDealer            | Register dealer (bcrypt)
+  POST    | /dealer/loginDealer               | Login dealer (JWT)
+  GET     | /dealer/dealers                   | Get current dealer (JWT)
+  GET     | /dealer/alldealers                | Get all dealers
+  PUT     | /dealer/updateDealer/:id          | Update dealer profile
+  DELETE  | /dealer/delete/:id                | Delete dealer
+  POST    | /dealer/addProduct                | Add fertilizer to dealer
+  GET     | /dealer/:dealerId/fertilizers     | Get dealer fertilizers
+  PUT     | /dealer/updatefertilizers/:id     | Update fertilizer
+  DELETE  | /dealer/deletefertilizer/:id      | Delete fertilizer
+  GET     | /dealer/fertilizers/search        | Search fertilizers
+
+  7.4 FERTILIZER ENDPOINTS (Sudarshan)
+  -------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /fertilizer/addFertilizer         | Add fertilizer
+  GET     | /fertilizer/displayAllFertilizers | Get all fertilizers
+  PUT     | /fertilizer/updateFertilizer/:id  | Update fertilizer
+  DELETE  | /fertilizer/deleteFertilizer/:id  | Delete fertilizer
+  GET     | /fertilizer/getFertilizer/:id     | Get single fertilizer
+
+  7.5 LAB ACCOUNT ENDPOINTS (Oshini)
+  -----------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /labAccount/add                   | Register lab account
+  GET     | /labAccount/                      | Get all lab accounts
+  PUT     | /labAccount/update/:userName      | Update lab account
+  DELETE  | /labAccount/delete/:userName      | Delete lab account
+  GET     | /labAccount/get/:userName         | Get single lab
+  GET     | /labAccount/checkUserName         | Check username availability
+  POST    | /labAccount/login                 | Lab login
+  GET     | /labAccount/retrieve              | Retrieve lab details
+  GET     | /labAccount/getLabIdByUsername/:u  | Get lab ID by username
+  PUT     | /labAccount/incrementCompleted    | Increment completed count
+  PUT     | /labAccount/incrementRejected     | Increment rejected count
+
+  7.6 LAB SLOT ENDPOINTS (Oshini)
+  --------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /labSlot/addTimeSlots             | Add time slots for a lab
+  DELETE  | /labSlot/deleteTimeSlot/:id/:d/:t | Delete a time slot
+
+  7.7 TEST REQUEST ENDPOINTS (Oshini)
+  ------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /testRequest/addTestRequest       | Create test request
+  PUT     | /testRequest/updateTestRequestStatus/:id | Update status
+  DELETE  | /testRequest/deleteTestRequest/:id| Delete test request
+  GET     | /testRequest/retrievePendingTestRequests/:labID/:date
+        |                                   | Get pending by lab and date
+  GET     | /testRequest/retrieveAcceptedTestRequests/:labID
+        |                                   | Get accepted for a lab
+  GET     | /testRequest/retrieveCompletedTestRequests/:labID
+        |                                   | Get completed for a lab
+  PUT     | /testRequest/updateStatus/:id     | Update request status
+
+  7.8 LAB REPORT ENDPOINTS (Oshini)
+  ----------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /labReport/upload-files           | Upload PDF report (Multer)
+  GET     | /labReport/get-files              | Get all uploaded reports
+
+  7.9 ADMIN ENDPOINTS (Rahul)
+  ----------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /admin/login                      | Admin login (bcrypt+JWT)
+  GET     | /admin/admins                     | Get admin name from JWT
+
+  7.10 ADMIN MANAGEMENT ENDPOINTS (Kande)
+  ----------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /api/admin/                       | Create admin (bcrypt)
+  GET     | /api/admin/                       | Get all admins
+  DELETE  | /api/admin/:id                    | Delete admin
+  PUT     | /api/admin/:id                    | Update admin
+
+  7.11 USER MANAGEMENT ENDPOINTS (Rahul)
+  ---------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  GET     | /viewdealers                      | Get all dealers
+  DELETE  | /viewdealers/delete/:id           | Delete dealer
+  GET     | /viewfarmers                      | Get all farmers
+  DELETE  | /viewfarmers/delete/:id           | Delete farmer
+  GET     | /labs/                            | Get all labs
+  GET     | /countDealer                      | Count dealers
+  GET     | /countFarmer                      | Count farmers
+  GET     | /countPendingFarmerReports        | Count pending inquiries
+
+  7.12 INQUIRY & REPLY ENDPOINTS (Rahul + Veenath)
+  -------------------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /api/reports/                     | Create inquiry report
+  GET     | /api/reports/                     | Get all reports
+  GET     | /api/reports/:id                  | Get single report
+  PUT     | /api/reports/:id                  | Update report
+  DELETE  | /api/reports/:id                  | Delete report
+  GET     | /farmerReport/dealers             | Get dealer inquiries
+  GET     | /farmerReport/dealers/:id/reply   | Get reply to dealer inquiry
+  POST    | /farmerReport/dealers/:id/reply   | Reply to dealer inquiry
+  PUT     | /farmerReport/replies/:replyId    | Update reply
+  PUT     | /farmerReport/dealers/:id/status  | Mark as resolved
+  GET     | /farmerReport/farmers             | Get farmer inquiries
+  GET     | /farmerReport/farmers/:id/reply   | Get reply to farmer inquiry
+  POST    | /farmerReport/farmers/:id/reply   | Reply to farmer inquiry
+  PUT     | /farmerReport/farmers/:id/status  | Mark as resolved
+  POST    | /replies/                         | Create reply
+
+  7.13 FEEDBACK ENDPOINTS (Veenath)
+  ----------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /api/feedbacks/                   | Create feedback
+  GET     | /api/feedbacks/                   | Get all + average rating
+  GET     | /api/feedbacks/:id                | Get single feedback
+  PUT     | /api/feedbacks/:id                | Update feedback
+  DELETE  | /api/feedbacks/:id                | Delete feedback
+
+  7.14 ITEM & ORDER ENDPOINTS (Lasindu)
+  --------------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /item/add                         | Add fertilizer item
+  GET     | /item/displayAll                  | Get all items
+  PUT     | /item/update/:id                  | Update item
+  DELETE  | /item/delete/:id                  | Delete item
+  GET     | /item/get/:id                     | Get single item
+  POST    | /order/add                        | Place new order
+  GET     | /order/displayAll                 | Get all orders
+  GET     | /order/history/:farmerId          | Get farmer order history
+  PUT     | /order/update/:id                 | Update order
+  DELETE  | /order/delete/:id                 | Delete order
+  GET     | /order/get/:id                    | Get single order
+
+  7.15 ARTICLE ENDPOINTS (Nilupul)
+  ---------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  GET     | /api/articles/                    | Get all articles
+  POST    | /api/articles/                    | Create article
+  PUT     | /api/articles/:id                 | Update article
+  DELETE  | /api/articles/:id                 | Delete article
+
+  7.16 MANAGER ENDPOINTS (Kande)
+  -------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  POST    | /signup                           | Register manager
+  POST    | /Mlogin                           | Manager login
+  POST    | /topfertilizercategory/add        | Add top fertilizer
+  GET     | /topfertilizercategory/           | Get all top fertilizers
+  PUT     | /topfertilizercategory/update/:id | Update top fertilizer
+  DELETE  | /topfertilizercategory/delete/:id | Delete top fertilizer
+  POST    | /topdealer/add                    | Add top dealer
+  GET     | /topdealer/                       | Get all top dealers
+  PUT     | /topdealer/update/:id             | Update top dealer
+  DELETE  | /topdealer/delete/:id             | Delete top dealer
+  POST    | /toparea/add                      | Add top area
+  GET     | /toparea/                         | Get all top areas
+  PUT     | /toparea/update/:id               | Update top area
+  DELETE  | /toparea/delete/:id               | Delete top area
+
+  7.17 PROFILE ENDPOINTS (Rahul)
+  ------------------------------
+  Method  | Endpoint                          | Description
+  --------|-----------------------------------|---------------------------
+  GET     | /api/profile/profile              | Get admin profile (JWT)
+
+
+8. DATABASE MODELS AND SCHEMAS
+================================================================================
+
+  8.1 Farmer (Thisaravi)
+  -----------------------
+  Collection: farmers
+  Fields:
+    - first_name    : String (required)
+    - last_name     : String (required)
+    - email         : String (required)
+    - phone         : Number (required)
+    - district      : String (required)
+    - city          : String (required)
+    - userName      : String (required)
+    - password      : String (required)
+
+  8.2 SoilTest (Thisaravi)
+  -------------------------
+  Collection: soiltests
+  Fields:
+    - soilTestType  : String (required)
+    - cropType      : String (required)
+    - date          : Date (required)
+    - district      : String (required)
+    - city          : String (required)
+    - laboratory    : ObjectId ref: Lab (optional)
+    - status        : String (enum: pending/completed, default: "pending")
+    - pdfUrl        : String (optional)
+
+  8.3 Dealer (Sudarshan)
+  -----------------------
+  Collection: dealers
+  Fields:
+    - name              : String (required)
+    - address           : String (required)
+    - email             : String (required, unique)
+    - phone             : String (required)
+    - storeLocation     : String (required)
+    - password          : String (required, bcrypt hashed)
+    - reEnteredPassword : String (required)
+    - username          : String (required, unique)
+    - fertilizers       : [ObjectId ref: fertilizer] (linked fertilizers)
+    - rating            : Number (default: 4.5)
+
+  8.4 Fertilizer (Sudarshan / Lasindu)
+  -------------------------------------
+  Collection: fertilizers
+  Fields:
+    - name      : String (required)
+    - itemcode  : Number (required)
+    - price     : Number (required)
+    - quantity  : Number (required)
+
+  8.5 Order (Lasindu)
+  --------------------
+  Collection: orders
+  Fields:
+    - name          : String (required)
+    - itemcode      : Number (required)
+    - price         : Number (required)
+    - quantity      : Number (required)
+    - status        : String (default: "Pending")
+    - farmerId      : String (required)
+    - paymentMethod : String (default: "")
+    - cardLast4     : String (default: "")
+    - paymentStatus : String (default: "Unpaid")
+    - orderDate     : Date (default: Date.now)
+
+  8.6 LabAccount (Oshini)
+  ------------------------
+  Collection: labaccounts
+  Fields:
+    - name      : String (required)
+    - address   : String (required)
+    - phone     : String (required)
+    - district  : String (required)
+    - city      : String (required)
+    - userName  : String (required, unique)
+    - password  : String (required)
+    - completed : Number (default: 0)
+    - rejected  : Number (default: 0)
+    - level     : Number (default: 0)
+
+  8.7 LabSlot (Oshini)
+  ---------------------
+  Collection: labslots
+  Fields:
+    - labId      : ObjectId ref: Lab (required)
+    - date       : Date (required)
+    - timeSlots  : [{ startTime: String, endTime: String }]
+
+  8.8 TestRequest (Oshini)
+  -------------------------
+  Collection: testrequests
+  Fields:
+    - farmerID   : ObjectId ref: Farmer (required)
+    - labID      : ObjectId ref: Lab (required)
+    - testType   : String (required)
+    - date       : Date (required)
+    - startTime  : String (required)
+    - status     : String (enum: pending/approved/rejected/completed,
+                            default: "pending")
+
+  8.9 LabReport (Oshini)
+  -----------------------
+  Collection: labreports
+  Fields:
+    - requestID : ObjectId ref: TestRequest (required)
+    - pdf       : String (required, filename)
+    - title     : String (required)
+
+  8.10 Admin (Rahul)
+  -------------------
+  Collection: admins
+  Fields:
+    - username  : String (required, unique)
+    - password  : String (required, bcrypt hashed)
+    - city      : String (required)
+    - phone     : String (required)
+    - email     : String (required)
+    - address   : String (required)
+
+  8.11 Reply (Rahul)
+  -------------------
+  Collection: replies
+  Fields:
+    - dealerId   : ObjectId ref: FarmerReport (required)
+    - replyText  : String (required)
+    - createdAt  : Date (default: Date.now)
+
+  8.12 ReplyFarmer (Rahul)
+  -------------------------
+  Collection: replyfarmers
+  Fields:
+    - farmerId   : ObjectId ref: FarmerReport (required)
+    - replyText  : String (required)
+    - createdAt  : Date (default: Date.now)
+
+  8.13 FarmerReport (Veenath)
+  ----------------------------
+  Collection: farmerreports
+  Fields:
+    - name        : String (required)
+    - topic       : String (required)
+    - description : String (required)
+    - priority    : String (enum: Low/Medium/High)
+    - category    : String (enum: Farmer/Dealer)
+    - area        : String (required, 24 Sri Lankan districts)
+    - status      : String (enum: Pending/Resolved, default: "Pending")
+    - replyText   : String (optional)
+
+  8.14 FarmerFeedback (Veenath)
+  -----------------------------
+  Collection: farmerfeedbacks
+  Fields:
+    - orderId     : String (optional)
+    - farmerName  : String (required)
+    - description : String (required)
+    - starRating  : Number (required, min: 1, max: 5)
+    - itemcode    : Number (required)
+
+  8.15 Article (Nilupul)
+  ----------------------
+  Collection: articles
+  Fields:
+    - title    : String (required)
+    - content  : String (required)
+    - date     : Date (default: Date.now)
+
+  8.16 TopSelling (Kande)
+  -----------------------
+  Collection: topsellings
+  Fields:
+    - dealername   : String (required)
+    - noofsales    : Number (required)
+
+  8.17 TopFertilizer / FertilizerAnalysis (Kande)
+  ------------------------------------------------
+  Collection: fertilizeranalyses
+  Fields:
+    - fertilizername : String (required)
+    - noofsales      : Number (required)
+
+  8.18 TopAreas (Kande)
+  ----------------------
+  Collection: topareas
+  Fields:
+    - area              : String (required)
+    - noofRegistrations : Number (required)
+
+  8.19 User / Manager (Kande)
+  ----------------------------
+  Collection: users
+  Fields:
+    - username : String (required, unique)
+    - password : String (required, plain text)
+
+
+9. AUTHENTICATION AND SESSION MANAGEMENT
+================================================================================
+
+  The system uses a hybrid authentication approach:
+
+  JWT-BASED AUTHENTICATION:
+  -------------------------
+  - Admin Login  : bcrypt password verification + JWT token (1h expiry)
+  - Dealer Login : bcrypt password verification + JWT token (1h expiry)
+  - JWT Secret   : "16811" (or process.env.JWT_SECRET)
+  - Token stored in: localStorage (frontend)
+  - Token sent via: Authorization header (Bearer token)
+
+  SESSION-BASED AUTHENTICATION:
+  -----------------------------
+  - Farmer Login  : Plain text password + express-session
+  - Lab Login     : Plain text password + express-session
+  - Manager Login : Plain text password + express-session
+  - Session store : connect-mongo (MongoDB Atlas)
+  - Session secret: "agronest-session-secret-key-2024"
+  - Session data  : userId and role stored in req.session
+
+  PASSWORD SECURITY:
+  ------------------
+  - Admin passwords  : Hashed with bcrypt (salt rounds: 10)
+  - Dealer passwords : Hashed with bcrypt (salt rounds: 10)
+  - Farmer passwords : Stored in plain text (security concern)
+  - Lab passwords    : Stored in plain text (security concern)
+  - Manager passwords: Stored in plain text (security concern)
+
+
+10. CRON JOBS AND SCHEDULED TASKS
+================================================================================
+
+  CRON JOB 1: Auto-Generate Lab Time Slots
+  -----------------------------------------
+  Schedule : Daily at midnight (0 0 * * *)
+  Purpose  : Generates time slots for all registered laboratories,
+             3 days in advance
+  Slots    : Hourly from 08:00 to 17:00
+             (skips 12:00-14:00 lunch break)
+  File     : server.js lines 102-119
+
+  CRON JOB 2: Clean Up Expired Time Slots
+  -----------------------------------------
+  Schedule : Every hour (0 * * * *)
+  Purpose  : Removes any time slot whose endTime has already passed
+  File     : server.js lines 121-134
+
+
+11. DEMO WALKTHROUGH
+================================================================================
+
+  Step 1: Show the Landing Page
+  - Open http://localhost:3000
+  - Show the image slideshow
+  - Show articles section
+  - Point out the navigation bar (AgroNest logo, Help, Soil Test, Shop)
+
+  Step 2: Show Login Options
+  - Click Login -> Show LoginType page with 5 role buttons
+  - Explain each role briefly
+
+  Step 3: Demo Farmer Flow
+  - Click "Farmer" -> RegisterForm -> Fill and submit registration
+  - Login as the new farmer
+  - Show farmer profile with sidebar
+  - Go to Shop -> Browse fertilizer items with images
+  - Click an item -> Select quantity -> Choose payment -> Place order
+  - Go to Soil Test -> Select test type, crop, district, city, lab
+  - Submit soil test request
+  - Show pending requests
+  - Go to Feedback -> Submit feedback with star rating
+
+  Step 4: Demo Dealer Flow
+  - Register as dealer (with email, phone validation)
+  - Login as dealer
+  - Go to Manage Shop -> Add a fertilizer with name, price, quantity
+  - Show the fertilizer in the inventory list
+  - Go to Orders -> Show pending orders
+  - Confirm or reject an order
+  - Go to Analysis -> Show bar chart and search functionality
+  - Export a PDF report
+
+  Step 5: Demo Lab Flow
+  - Register as laboratory
+  - Login as lab
+  - Show dashboard with Pending/Accepted/Completed tabs
+  - Accept a test request
+  - Mark it as completed
+  - Upload a PDF result file
+  - Show profile and export as PDF
+
+  Step 6: Demo Admin Flow
+  - Login as admin (admin credentials)
+  - Show dashboard with statistics cards
+  - View dealers table (search, filter)
+  - View farmers table (search, filter)
+  - View lab cards with district filter
+  - Reply to an inquiry
+
+  Step 7: Demo Manager Flow
+  - Login as manager
+  - Show dashboard with embedded charts
+  - Add a top fertilizer category
+  - Add a top selling dealer
+  - Add a top area
+  - Show bar charts updating
+  - Create a new admin account
+
+
+12. INTERVIEW QUESTIONS AND ANSWERS
+================================================================================
+
+  Q1: Why did you choose MongoDB over MySQL?
+  A1: MongoDB is a NoSQL database that provides flexibility for handling
+      varying data schemas across our 17 models. It stores data in BSON
+      (JSON-like format), making it easy to integrate with Node.js.
+      MongoDB Atlas provides cloud hosting with automatic backups and
+      scaling, which is ideal for a web application with multiple
+      user roles and collections.
+
+  Q2: How is authentication handled in your system?
+  A2: We use a hybrid approach. Admin and Dealer logins use bcrypt for
+      password hashing and JWT (JSON Web Tokens) for stateless
+      authentication with 1-hour expiry. Farmer, Lab, and Manager
+      logins use express-session with sessions stored in MongoDB via
+      connect-mongo, providing server-side session persistence.
+
+  Q3: How do you handle file uploads?
+  A3: We use Multer middleware for handling file uploads. Lab reports
+      are uploaded as PDF files and stored in the BACKEND/uploads/
+      directory with timestamped filenames. The files are linked to
+      specific test requests in the LabReport model and served
+      statically via Express.
+
+  Q4: What are cron jobs and why do you use them?
+  A4: Cron jobs are scheduled tasks that run automatically at specified
+      intervals. We have two: (1) A daily job at midnight that
+      generates lab time slots 3 days in advance (08:00-17:00,
+      skipping lunch), and (2) an hourly job that cleans up expired
+      time slots. This automates lab scheduling without manual
+      intervention.
+
+  Q5: How does the soil test request system work?
+  A5: A farmer selects a test type, crop type, preferred date/time,
+      district, and city. The system automatically assigns a laboratory
+      in the same district and city. The lab can then accept, reject,
+      or complete the request. Status tracking is shown in both the
+      farmer's and lab's dashboards.
+
+  Q6: How does the order management system work?
+  A6: Farmers browse the shop, select items, and go through a 4-step
+      checkout process (confirm, payment method, card details,
+      processing). Orders are saved with "Pending" status. Dealers
+      view pending orders and can confirm or reject them. Order status
+      updates are tracked in the database.
+
+  Q7: What is the role of express-session and connect-mongo?
+  A7: express-session creates server-side sessions for users after
+      login. connect-mongo stores these sessions in MongoDB Atlas,
+      so they persist across server restarts. This allows users to
+      stay logged in even when the backend server is restarted,
+      as long as the session secret key remains consistent.
+
+  Q8: How do you prevent duplicate registrations?
+  A8: We use multiple layers: (1) Mongoose schema-level unique
+      constraints on username/email fields, (2) Route-level checks
+      before saving (e.g., Farmer.findOne({ userName }) before
+      registration), and (3) Frontend real-time username availability
+      checking via API calls as the user types.
+
+  Q9: What security measures are implemented?
+  A9: (1) bcrypt password hashing for Admin and Dealer accounts,
+      (2) JWT token-based authentication with expiry, (3) Session
+      management with connect-mongo, (4) Input validation (phone
+      format, required fields, password matching), (5) CORS
+      configuration for cross-origin requests, and (6) Confirmation
+      dialogs for destructive actions (delete).
+
+  Q10: How does the feedback and rating system work?
+  A10: Farmers submit feedback after placing orders, with a star rating
+       (1-5), order ID, description, and item code. The system
+       calculates the average rating for each dealer. Dealers can
+       view their average rating. Admin can view all feedbacks.
+
+  Q11: How is the system designed for scalability?
+  A11: (1) MongoDB Atlas provides horizontal scaling via sharding,
+        (2) Modular architecture with separate route files per module,
+        (3) React component-based architecture for UI reuse,
+        (4) Stateless JWT authentication reduces server load,
+        (5) Separate frontend and backend can be deployed independently.
+
+  Q12: What is the purpose of the System Manager role?
+  A12: The System Manager oversees analytics and high-level data.
+       They manage Top Fertilizer Categories, Top Selling Dealers,
+       and Top Registration Areas -- all with CRUD operations,
+       bar charts for visualization, and PDF exports for reporting.
+       They also create and manage Administrator accounts.
+
+  Q13: How does the inquiry and reply system work?
+  A13: Farmers and Dealers submit inquiries with category (Farmer/Dealer),
+       priority (Low/Medium/High), topic, description, and area
+       (district). Admins and Dealers can view inquiries and post
+       replies. Inquiries can be marked as "Resolved" when addressed.
+       The system tracks reply history with timestamps.
+
+  Q14: What charts and analytics are available?
+  A14: (1) Dealer analytics: Bar chart of fertilizer quantities by type,
+        (2) Manager dashboard: Bar charts for top fertilizers, top
+        dealers, and top areas, (3) Admin dashboard: Statistics cards
+        showing dealer count, farmer count, and pending inquiry count.
+        Charts are built using Chart.js.
+
+  Q15: How would you improve this system in the future?
+  A15: (1) Add a real payment gateway (Stripe/PayPal) for actual
+        transactions, (2) Hash all passwords (currently Farmer/Lab
+        passwords are plain text), (3) Add email notifications for
+        order status changes and test request updates, (4) Implement
+        a real-time chat between farmers and dealers, (5) Add mobile
+        app version using React Native, (6) Implement rate limiting
+        and brute-force protection for login endpoints.
+
+
+================================================================================
+                         END OF DOCUMENT
+================================================================================

@@ -11,6 +11,9 @@ router.route('/add').post((req, res) => {
     const price = Number(req.body.price);
     const quantity = Number(req.body.quantity);
     const farmerId = req.body.farmerId;
+    const paymentMethod = req.body.paymentMethod || '';
+    const cardLast4 = req.body.cardLast4 || '';
+    const paymentStatus = req.body.paymentStatus || 'Unpaid';
 
     const newItem = new Order({
         name,
@@ -18,11 +21,13 @@ router.route('/add').post((req, res) => {
         price,
         quantity,
         farmerId,
-        farmerId,
+        paymentMethod,
+        cardLast4,
+        paymentStatus,
     });
 
     newItem.save().then(() => {
-        res.json("Order Placed");
+        res.json({ status: "Order Placed", orderId: newItem._id });
     }).catch((err) => {
         console.error("Error placing order:", err);
         res.status(500).json({ error: "Error placing order" });

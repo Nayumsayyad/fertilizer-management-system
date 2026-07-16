@@ -114,6 +114,10 @@ router.route("/login").post(async (req, res) => {
         return res.status(400).json({ error: "Invalid username or password" });
     }
 
+    // Store user in session
+    req.session.userId = user._id;
+    req.session.role = 'farmer';
+
     res.json({ user });
     
 });

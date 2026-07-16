@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 let Dealer = require('../../../models/Sudarshan/dealer_acc_mgmt/dealer');
 let Fertilizer = require('../../../models/Sudarshan/inventory_mgmt/fertilizer');
@@ -89,6 +89,10 @@ router.post('/registerDealer', async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Password Incorrect' });
         }
+
+        // Store user in session
+        req.session.userId = dealer._id;
+        req.session.role = 'dealer';
 
         // Create and send JWT token
         const token = jwt.sign({ id: dealer._id }, process.env.JWT_SECRET || secretKey, { expiresIn: '1h' });
