@@ -16,13 +16,13 @@ const Logintype = () => {
         style={{ height: '100%' }}
       >
         <Grid item>
-          <Avatar sx={{ m: 1, bgcolor: '#0f5132' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#1B5E20' }}>
             <AccountCircleOutlinedIcon style={{ fontSize: 35, color: 'white' }} />
           </Avatar>
         </Grid>
 
         <Grid item>
-          <Typography variant="h4" gutterBottom style={{ textAlign: 'center', color: '#0f5132' }}>
+          <Typography variant="h4" gutterBottom style={{ textAlign: 'center', color: '#1B5E20' }}>
             Profile
           </Typography>
         </Grid>

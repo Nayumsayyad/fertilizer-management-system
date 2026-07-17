@@ -6,75 +6,75 @@ import Header from '../Component/common/header';
 import LoginType from '../pages/common/LoginType';
 import SignupType from '../pages/common/SignUpType';
 import ProfType from '../pages/common/ProfileType';
-//Sudarshan
-import DealerProf from '../pages/Sudarshan/DealerProf';
-import LoginPage from '../pages/Sudarshan/DealerLogin';
-import SignupPage from '../pages/Sudarshan/DealerSignUp';
-import EditProfile from '../pages/Sudarshan/editProf';
-import ManageShop from '../pages/Sudarshan/ManageShop';
-import Orders from '../pages/Sudarshan/Orders';
-import ShopAnalysis from '../pages/Sudarshan/Analysis';
-//Veenath
-import InquiryCategory from '../pages/Veenath/InquiryPages/inquiryCategory';
-import FormPage from '../pages/Veenath/InquiryPages/formPage';
-import FarmerInquiry from '../pages/Veenath/InquiryPages/farmerInquiry';
-import DealerInquiry from '../pages/Veenath/InquiryPages/dealerInquiry';
-import FeedbackForm from '../pages/Veenath/FeedbackPages/FeedbackForm';
-import PastFeedbackList from '../pages/Veenath/FeedbackPages/PastFeedbackList';
-import FeedbackCardView from '../pages/Veenath/FeedbackPages/FeedbackCardView';
-import DealerRating from '../pages/Veenath/FeedbackPages/DealerRating';
-//Oshini
-import LabSignUp from '../pages/Oshini/signup';
-import LabLogin from '../pages/Oshini/labLogin'
-import LabDash from '../pages/Oshini/labDash';
-import LabProfile from '../pages/Oshini/labProfile';
-import LabEdit from '../pages/Oshini/labEdit';
-import TestAccept from '../pages/Oshini/accepted';
-import TestComplete from '../pages/Oshini/completed';
-import FileUpload from '../pages/Oshini/uploadFile';
-//Lasindu
-import ItemView from '../Component/Lasindu/ItemView';
-import OrderHistoryPage from '../Component/Lasindu/orderHistory';
-import UpdateOrderDialog from '../Component/Lasindu/orderUpdate';
-import ItemList from '../Component/Lasindu/Itemlist';
-//Thisaravi
-import RegisterForm from '../pages/Thisaravi/RegisterForm';
-import FarmerProfile from '../Component/Thisaravi/FarmerProfile';
-import Sidebar from '../Component/Thisaravi/Sidebar';
-import SoilTestRequest from '../pages/Thisaravi/SoilTest/SoilTestRequest';
-import TestServices from '../pages/Thisaravi/SoilTest/TestServices';
-import ViewRequests from '../pages/Thisaravi/SoilTest/ViewRequests';
-import RequestDetails from '../pages/Thisaravi/SoilTest/RequestDetails';
-import UpdateRequest from '../pages/Thisaravi/SoilTest/UpdateRequest';
-import Login from '../pages/Thisaravi/Login';
-import TestType from '../pages/Thisaravi/SoilTest/TestType';
-import ViewResolvedRequests from '../pages/Thisaravi/SoilTest/ViewResolvedRequests';
-import UpdateProfile from '../pages/Thisaravi/UpdateProfile';
-//Nilupul
-import ArticleList from '../pages/Nilupul/ArticleList';
-import ArticleForm from '../pages/Nilupul/ArticleForm';
-import Form from '../pages/Nilupul/Form';
-import DataTable from '../pages/Nilupul/DataTable';
-import GmailButton from '../pages/Nilupul/GmailButton';
-//Rahul
-import DealerList from '../Component/Rahul/DealerList';
-import FarmerList from '../Component/Rahul/FarmerList';
-import LabCards from '../Component/Rahul/LabCard';
-import FullWidthTabs from '../Component/Rahul/FullWidthTabs';
-import AdminLogin from '../Component/Rahul/AdminLogin';
-import AdminDashboard from '../pages/Rahul/AdminDashboard';
-//Kande
-import TopFertilizer from  '../pages/Kande/TopfertilizerScreen';
-import AddTopAreas from '../pages/Kande/TopAreaScreen';
-import SysManagerDashboard from '../pages/Kande/SysManagerDashboard';
-import ViewTopFertilizer from '../pages/Kande/ViewTopFertilizer';
-import MLogin from '../Component/Kande/login/MLogin';
-import TopArea from '../pages/Kande/TopAreaScreen';
-import AddTopfertilizer from'../Component/Kande/AddTopSelling'
-import ViewTopSellers from '../pages/Kande/ViewTopSelling';
-import  ViewTopRegisterdArea from'../pages/Kande/ViewTopAreas'
-import AddAdminForm from '../Component/Kande/FormCntainer/Form'
-import ViewAdmin from '../Component/Kande/ViewAdmins'
+//dealer
+import DealerProf from '../pages/dealer/DealerProf';
+import LoginPage from '../pages/dealer/DealerLogin';
+import SignupPage from '../pages/dealer/DealerSignUp';
+import EditProfile from '../pages/dealer/editProf';
+import ManageShop from '../pages/dealer/ManageShop';
+import Orders from '../pages/dealer/Orders';
+import ShopAnalysis from '../pages/dealer/Analysis';
+//inquiries
+import InquiryCategory from '../pages/inquiries/InquiryPages/inquiryCategory';
+import FormPage from '../pages/inquiries/InquiryPages/formPage';
+import FarmerInquiry from '../pages/inquiries/InquiryPages/farmerInquiry';
+import DealerInquiry from '../pages/inquiries/InquiryPages/dealerInquiry';
+import FeedbackForm from '../pages/inquiries/FeedbackPages/FeedbackForm';
+import PastFeedbackList from '../pages/inquiries/FeedbackPages/PastFeedbackList';
+import FeedbackCardView from '../pages/inquiries/FeedbackPages/FeedbackCardView';
+import DealerRating from '../pages/inquiries/FeedbackPages/DealerRating';
+//lab
+import LabSignUp from '../pages/lab/signup';
+import LabLogin from '../pages/lab/labLogin'
+import LabDash from '../pages/lab/labDash';
+import LabProfile from '../pages/lab/labProfile';
+import LabEdit from '../pages/lab/labEdit';
+import TestAccept from '../pages/lab/accepted';
+import TestComplete from '../pages/lab/completed';
+import FileUpload from '../pages/lab/uploadFile';
+//orders
+import ItemView from '../Component/orders/ItemView';
+import OrderHistoryPage from '../Component/orders/orderHistory';
+import UpdateOrderDialog from '../Component/orders/orderUpdate';
+import ItemList from '../Component/orders/Itemlist';
+//farmer
+import RegisterForm from '../pages/farmer/RegisterForm';
+import FarmerProfile from '../Component/farmer/FarmerProfile';
+import Sidebar from '../Component/farmer/Sidebar';
+import SoilTestRequest from '../pages/farmer/SoilTest/SoilTestRequest';
+import TestServices from '../pages/farmer/SoilTest/TestServices';
+import ViewRequests from '../pages/farmer/SoilTest/ViewRequests';
+import RequestDetails from '../pages/farmer/SoilTest/RequestDetails';
+import UpdateRequest from '../pages/farmer/SoilTest/UpdateRequest';
+import Login from '../pages/farmer/Login';
+import TestType from '../pages/farmer/SoilTest/TestType';
+import ViewResolvedRequests from '../pages/farmer/SoilTest/ViewResolvedRequests';
+import UpdateProfile from '../pages/farmer/UpdateProfile';
+//articles
+import ArticleList from '../pages/articles/ArticleList';
+import ArticleForm from '../pages/articles/ArticleForm';
+import Form from '../pages/articles/Form';
+import DataTable from '../pages/articles/DataTable';
+import GmailButton from '../pages/articles/GmailButton';
+//admin
+import DealerList from '../Component/admin/DealerList';
+import FarmerList from '../Component/admin/FarmerList';
+import LabCards from '../Component/admin/LabCard';
+import FullWidthTabs from '../Component/admin/FullWidthTabs';
+import AdminLogin from '../Component/admin/AdminLogin';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+//systemManager
+import TopFertilizer from  '../pages/systemManager/TopfertilizerScreen';
+import AddTopAreas from '../pages/systemManager/TopAreaScreen';
+import SysManagerDashboard from '../pages/systemManager/SysManagerDashboard';
+import ViewTopFertilizer from '../pages/systemManager/ViewTopFertilizer';
+import MLogin from '../Component/systemManager/login/MLogin';
+import TopArea from '../pages/systemManager/TopAreaScreen';
+import AddTopfertilizer from'../Component/systemManager/AddTopSelling'
+import ViewTopSellers from '../pages/systemManager/ViewTopSelling';
+import  ViewTopRegisterdArea from'../pages/systemManager/ViewTopAreas'
+import AddAdminForm from '../Component/systemManager/FormCntainer/Form'
+import ViewAdmin from '../Component/systemManager/ViewAdmins'
 
 const Router = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

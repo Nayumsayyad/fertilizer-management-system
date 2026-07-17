@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     appBar: {
         height: '33px', // Set the height of the app bar
-        backgroundColor: '#0f5132', // Set the background color to black
+        backgroundColor: '#1B5E20', // Set the background color to black
         position: 'fixed', // Fix the top bar to the top of the viewport
         top: 75, // Ensure the top bar starts at the top of the viewport
         zIndex: theme.zIndex.drawer + 1, // Ensure the top bar is above other elements

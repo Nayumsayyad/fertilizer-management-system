@@ -1,13 +1,13 @@
 import React from 'react';
-import ArticleList from '../Nilupul/ArticleList';
+import ArticleList from '../articles/ArticleList';
 
 import SlideShow from '../../Component/common/Slideshow';
 
 const DealerSignUp = () => {
   const slideshowImages = [
-    require('../../images/Rahul/1.png'),
-    require('../../images/Rahul/2.png'),
-    require('../../images/Rahul/3.png')
+    require('../../images/admin/1.png'),
+    require('../../images/admin/2.png'),
+    require('../../images/admin/3.png')
   ];
 
   return (
